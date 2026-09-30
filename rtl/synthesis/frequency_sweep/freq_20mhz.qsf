@@ -1,0 +1,13 @@
+set_global_assignment -name FAMILY "Cyclone II"
+set_global_assignment -name DEVICE EP2C5T144C8
+set_global_assignment -name TOP_LEVEL_ENTITY ml_inference
+set_global_assignment -name SYSTEMVERILOG_FILE ../../ml_inference.sv
+set_global_assignment -name SDC_FILE freq_20mhz.sdc
+set_global_assignment -name MIF_FILE ../../../artifacts/weights_l1.mif
+set_global_assignment -name MIF_FILE ../../../artifacts/weights_l2.mif
+set_global_assignment -name MIF_FILE ../../../artifacts/bias_l1.mif
+set_global_assignment -name MIF_FILE ../../../artifacts/bias_l2.mif
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
+set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
+
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"

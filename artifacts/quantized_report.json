@@ -1,0 +1,5 @@
+{
+  "quantized_dequantized_test_accuracy": 0.8961,
+  "weight_scale": 102.09304809570312,
+  "format": "row-major signed two's-complement MIF"
+}

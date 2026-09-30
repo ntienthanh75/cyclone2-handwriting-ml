@@ -1,0 +1,12 @@
+
+State Machine - |ml_inference|state
+Name state.FINISH state.O_MAC state.O_SETUP state.H_NEXT state.H_MAC state.H_SETUP state.LOAD state.IDLE state.REJECT_FRAME 
+state.IDLE 0 0 0 0 0 0 0 0 0 
+state.LOAD 0 0 0 0 0 0 1 1 0 
+state.H_SETUP 0 0 0 0 0 1 0 1 0 
+state.H_MAC 0 0 0 0 1 0 0 1 0 
+state.H_NEXT 0 0 0 1 0 0 0 1 0 
+state.O_SETUP 0 0 1 0 0 0 0 1 0 
+state.O_MAC 0 1 0 0 0 0 0 1 0 
+state.FINISH 1 0 0 0 0 0 0 1 0 
+state.REJECT_FRAME 0 0 0 0 0 0 0 1 1 

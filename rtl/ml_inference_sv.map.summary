@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Wed Sep 30 17:30:35 2026
+Quartus II 64-Bit Version : 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition
+Revision Name : ml_inference_sv
+Top-level Entity Name : ml_inference
+Family : Cyclone II
+Total logic elements : 4,522
+    Total combinational functions : 3,929
+    Dedicated logic registers : 985
+Total registers : 985
+Total pins : 80
+Total virtual pins : 0
+Total memory bits : 56,880
+Embedded Multiplier 9-bit elements : 9
+Total PLLs : 0

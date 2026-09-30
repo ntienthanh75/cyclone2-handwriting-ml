@@ -1,0 +1,1 @@
+Warning (10268): Verilog HDL information at ml_inference_pipe3.sv(51): always construct contains both blocking and non-blocking assignments
