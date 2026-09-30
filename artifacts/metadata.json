@@ -1,0 +1,12 @@
+{
+  "model": "196-32-10",
+  "input": "14x14 uint4",
+  "seed": 1234,
+  "thresholds": {
+    "confidence": 0.5175181031227112,
+    "margin": 0.21677455306053162
+  },
+  "quantization": {
+    "scale": 102.09304809570312
+  }
+}
