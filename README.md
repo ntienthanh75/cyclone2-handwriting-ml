@@ -2,7 +2,7 @@
 
 Specification for a reusable photo-to-digit FPGA inference project that recognizes handwritten digits `0–9` or returns `NON_RECOGNIZABLE` on the shared Waveshare/CoreEP2C5 Cyclone II board. SystemVerilog is the principal RTL language for this project.
 
-Read [SPEC.md](SPEC.md) before implementation. The first phase is PC photo normalization, training, and benchmarking with MNIST; the FPGA phase will implement reusable quantized inference at the board's selected 8 MHz clock. LCD touch and photo input must share the same classifier interface.
+Read [SPEC.md](SPEC.md) and the shared [BOARD_SPEC.md](BOARD_SPEC.md) before implementation. `BOARD_SPEC.md` is the source of truth for the CoreEP2C5 connections to the LCD/touch module, SDRAM board, CY7C68013A FX2 USB FIFO, USB-Blaster/JTAG, LEDs, buzzer, clock, and reset. The first phase is PC photo normalization, training, and benchmarking with MNIST; the FPGA phase will implement reusable quantized inference. LCD touch and photo input must share the same classifier interface.
 
 ## PC baseline completed
 
