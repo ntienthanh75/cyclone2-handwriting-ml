@@ -10,8 +10,9 @@ Training happens on the PC. The FPGA performs the trained model's forward pass a
 
 ## 2. Common hardware target
 
-The complete shared-board connection specification is maintained in
-[BOARD_SPEC.md](BOARD_SPEC.md). It must be consulted before adding LCD,
+The complete shared-board connection specification is maintained in the
+[canonical board-spec document](https://github.com/ntienthanh75/fpga-cyclone2-5led/blob/main/docs/board-spec.md).
+It must be consulted before adding LCD,
 touch, SDRAM, FX2 USB, UART, joystick, or JTAG connections.
 
 | Item | Specification |

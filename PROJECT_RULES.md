@@ -20,6 +20,11 @@ These rules keep the repositories coherent inside the private GitHub project
 
 ## 2. Target hardware declaration
 
+The canonical shared board document is
+<https://github.com/ntienthanh75/fpga-cyclone2-5led/blob/main/docs/board-spec.md>.
+New repositories should link to it rather than copy a second board
+specification.
+
 Every repository README must state the target explicitly:
 
 ```text

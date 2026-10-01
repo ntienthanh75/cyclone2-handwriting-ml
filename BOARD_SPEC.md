@@ -1,5 +1,9 @@
 # Shared Cyclone II FPGA Board Specification
 
+> Canonical copy: [`fpga-cyclone2-5led/docs/board-spec.md`](https://github.com/ntienthanh75/fpga-cyclone2-5led/blob/main/docs/board-spec.md).
+> Keep board details there; this file is retained only as a compatibility
+> pointer for older links and must not be edited as a second specification.
+
 This is the canonical hardware specification shared by the repositories in
 the private GitHub Project **Cyclone II FPGA Board**.
 
