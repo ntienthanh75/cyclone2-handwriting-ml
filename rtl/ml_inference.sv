@@ -7,6 +7,7 @@ module ml_inference #(
 ) (
   input  wire        clk,
   input  wire        reset_n,
+  input  wire        clock_enable,
   input  wire        input_frame_valid,
   input  wire [7:0]  input_pixel_index,
   input  wire [3:0]  input_pixel,
@@ -51,7 +52,7 @@ module ml_inference #(
       state <= IDLE; cycle_ctr <= 0; result_accepted <= 0;
       result_digit <= 0; result_confidence <= 0; result_margin <= 0; result_cycles <= 0;
       pixel_idx <= 0; neuron <= 0; output_n <= 0; acc <= 0;
-    end else begin
+    end else if (clock_enable) begin
       if (state != IDLE) cycle_ctr <= cycle_ctr + 1;
       case (state)
         IDLE: begin

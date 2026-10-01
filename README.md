@@ -29,9 +29,190 @@ $env:PYTHONPATH='D:\Programs\cyclone2_ml\python-libs'
 python python\train.py --data data\mnist --out artifacts --epochs 8
 ```
 
-LCD touch integration is tracked separately in
-`D:\fpga\lcd_touch_ml\README.md`. It converts touch strokes into the same
-14×14 tensor used by this classifier and does not create a second ML model.
+The primary hardware-test interface for this project is the PC-photo path.
+LCD touch is deliberately outside the required path and is tracked separately
+in `D:\fpga\lcd_touch_ml\README.md`. The classifier must be testable without
+connecting or programming the LCD.
+
+## Primary test path: PC photo to FPGA
+
+The intended benchmark path is:
+
+```text
+Photo on PC
+   |
+   v
+PC preprocessing
+  crop, grayscale, resize, center, normalize
+   |
+   v
+14x14 pixel frame (196 values)
+   |
+   v
+PC-to-FPGA transport
+  USB/UART or a JTAG-to-register bridge
+   |
+   v
+FPGA input wrapper
+  receives pixels and asserts frame_valid/frame_last
+   |
+   v
+SystemVerilog ML core
+   |
+   v
+Digit 0..9, confidence, or NON_RECOGNIZABLE
+   |
+   v
+Return result to the PC and record benchmark data
+```
+
+This means the ML project can be tested with real PC images without using the
+LCD. The PC software will use the same preprocessing rules as training, send
+the resulting 196-pixel frame to the FPGA, wait for `result_valid`, and save
+the returned digit, confidence, margin, and latency.
+
+The USB-Blaster is currently used for FPGA configuration. `quartus_pgm` can
+download a `.sof`, but it is not by itself a convenient continuous photo
+stream. For direct PC-photo testing, the next hardware addition is a small
+transport wrapper. The preferred first implementation is a simple UART/USB
+byte protocol; a JTAG register bridge is an alternative if the available
+board connection supports it. The transport choice must not change the
+classifier interface.
+
+### Proposed result protocol and benchmark record
+
+The first transport implementation should use a byte-oriented UART link. The
+PC sends one frame, then waits for one result packet:
+
+```text
+PC → FPGA:  0xA5, 196 pixel bytes
+FPGA → PC:  0x5A, digit, accepted, confidence, margin(u16 LE),
+            cycles(u32 LE), XOR checksum
+```
+
+Each pixel is one unsigned byte on the link (`0..15` is the classifier value),
+although the ML core receives the lower four bits. The FPGA wrapper converts
+the packet into `input_pixel_index`, `input_pixel`, `input_frame_valid`, and
+`input_frame_last`. When `result_valid` is asserted, the wrapper captures the
+ML outputs and transmits them to the PC. `accepted=0` is recorded as
+`NON_RECOGNIZABLE`, not as a digit.
+
+The PC benchmark runner stores one CSV row per photo, for example:
+
+```text
+sample_id,source_path,expected_label,fpga_digit,accepted,confidence,margin,cycles,correct,error
+000001,data/mnist/test/7.png,7,7,1,238,912,13411,1,
+000002,data/mnist/test/3.png,3,8,1,121,44,13411,0,wrong_digit
+000003,data/mnist/test/9.png,9,,0,12,3,13411,0,non_recognizable
+```
+
+`expected_label` comes from the dataset or the user-provided label. The runner
+computes `correct` only when the FPGA accepts the frame and its digit equals
+the expected label. From the CSV it can report accepted accuracy, rejection
+rate, total accuracy, average FPGA cycles, and transport latency. The original
+photo and the exact normalized 14×14 frame should be stored beside the CSV so
+an incorrect result can be reproduced.
+
+This protocol is a design specification until the FPGA UART/USB wrapper and
+the PC serial runner are implemented. It does not require LCD touch or Nios.
+
+The first implementation is now present in `rtl/ml_uart_bridge.sv` and
+`python/uart_benchmark.py`. The wrapper is reusable RTL, but the board-specific
+clock and UART pin assignments are intentionally still separate. Install the
+Python dependency with the project environment, then run one labeled image
+after the UART-capable `.sof` has been compiled and downloaded:
+
+```powershell
+$env:PYTHONPATH='D:\Programs\cyclone2_ml\python-libs;D:\fpga\cyclone2-handwriting-ml\python'
+python python\uart_benchmark.py --port COM7 --image data\example\seven.png --label 7
+```
+
+The default output is `artifacts/fpga_benchmark.csv`. It records the original
+image path, expected label, FPGA digit, acceptance, confidence, margin,
+processing cycles, transport time, and correctness.
+
+## PC–FPGA architecture
+
+The project has two separate communication planes. They must not be confused:
+
+```text
+                    CONFIGURATION PLANE
+ Quartus Programmer ───── USB-Blaster ───── JTAG ───── FPGA configuration
+       writes the complete .sof before runtime testing
+
+                       RUNTIME PLANE
+ PC benchmark runner  ⇄  USB-Blaster/JTAG Virtual JTAG  ⇄  FPGA wrapper
+       sends a frame                                  returns one result
+                                      |
+                                      v
+                                ML core
+                                      |
+                                      v
+                         digit/confidence/cycles
+                                      |
+                                      v
+                              PC CSV/JSON log
+```
+
+### Block responsibilities
+
+| Block | Responsibility | Does not do |
+|---|---|---|
+| PC preprocessing | Opens the original photo, applies the trained crop/grayscale/resize/normalization rules, and creates 196 four-bit pixels | Does not decide the FPGA result |
+| PC runtime driver | Sends one frame, waits for completion, reads the result, and stores the original path and expected label | Does not program the FPGA for every image |
+| USB-Blaster/JTAG | Loads the `.sof`; later, its Virtual JTAG channel can carry test frames and result registers | Is not automatically a general-purpose file-transfer device |
+| FPGA runtime wrapper | Implements the Virtual JTAG command/register interface, accepts 196 pixels, starts the ML core, and captures outputs | Does not preprocess camera/photo files |
+| `ml_inference.sv` | Performs quantized inference and produces digit, acceptance, confidence, margin, and cycle count | Does not know about USB, JTAG, LCD, or files |
+| PC benchmark logger | Writes CSV/JSON and compares `fpga_digit` against `expected_label` | Does not alter the FPGA result |
+
+### Runtime transaction
+
+One benchmark sample follows this transaction:
+
+```text
+1. PC loads photo and known label.
+2. PC creates normalized frame[0..195].
+3. PC obtains a JTAG Virtual JTAG session.
+4. PC writes START=0 and clears STATUS.
+5. PC writes the 196 pixel values to the FPGA frame registers.
+6. PC writes START=1.
+7. FPGA wrapper streams the frame to ml_inference.sv.
+8. FPGA asserts DONE when result_valid arrives.
+9. PC reads DIGIT, ACCEPTED, CONFIDENCE, MARGIN, and CYCLES.
+10. PC writes one CSV/JSON record and compares against the known label.
+```
+
+The FPGA register map should be kept stable and independent of the ML
+implementation:
+
+| Register | Direction | Meaning |
+|---|---|---|
+| `CONTROL` | PC → FPGA | `START`, `CLEAR` |
+| `PIXEL_INDEX` | PC → FPGA | Selects pixel 0–195 |
+| `PIXEL_DATA` | PC → FPGA | Four-bit normalized pixel |
+| `STATUS` | FPGA → PC | `BUSY`, `DONE`, `ERROR` |
+| `RESULT_DIGIT` | FPGA → PC | Digit 0–9 |
+| `RESULT_ACCEPTED` | FPGA → PC | 0 means `NON_RECOGNIZABLE` |
+| `RESULT_CONFIDENCE` | FPGA → PC | Quantized confidence |
+| `RESULT_MARGIN` | FPGA → PC | Difference from second-best score |
+| `RESULT_CYCLES` | FPGA → PC | ML processing cycle count |
+
+### Why JTAG is the first implementation
+
+JTAG Virtual JTAG is appropriate for the first proof because the frame is only
+196 pixels and the objective is functional correctness and benchmarking, not
+maximum throughput. The same USB-Blaster cable can therefore perform both
+`.sof` configuration and controlled runtime register transfers, but these are
+two separate operations and require separate FPGA logic.
+
+The CY7C68013A USB board is a later high-throughput option. It requires USB
+firmware, a PC driver/API, and an FPGA FIFO endpoint, so it is not part of the
+first JTAG proof. LCD touch remains outside this architecture and can later be
+added only as another producer of the same 14×14 frame.
+
+LCD touch is therefore optional: it can later become another producer of the
+same 14×14 frame, but it is not part of the PC benchmark and is not required
+to validate the ML core.
 
 ## Quantized reference and FPGA files
 
@@ -60,3 +241,86 @@ SystemVerilog core in `rtl/ml_inference.sv`. The original VHDL file remains
 only as a legacy comparison reference.
 The detailed troubleshooting and learning record is in
 [`verification/ISSUES_AND_LESSONS.md`](verification/ISSUES_AND_LESSONS.md).
+
+## Processing flow: from a test frame to a digit
+
+The current project has two different execution paths. The first path is
+already implemented and verified in simulation. The second path is the future
+board integration path; it is described here so the boundary is clear.
+
+### Current simulation path
+
+```text
+14x14 test frame (196 pixels, 4 bits each)
+        |
+        v
+UVM sequence / driver
+        |
+        v
+ml_inference.sv
+  1. accept pixels at input_pixel_index 0..195
+  2. store the frame in the input buffer
+  3. calculate the first 32-neuron layer
+  4. calculate the 10 output scores
+  5. select the highest-scoring digit
+  6. calculate confidence and margin
+        |
+        v
+result_valid + result_digit[3:0]
+             + result_confidence[7:0]
+             + result_margin[15:0]
+             + result_cycles[31:0]
+```
+
+The UVM test supplies known frames, waits until `busy` is clear, sends all
+196 pixels, and checks the result against the golden reference. This proves
+the RTL computation and its handshaking, but it does not program or exercise
+the physical FPGA board.
+
+### Planned hardware path: PC input first
+
+```text
+PC photo
+        |
+        v
+PC preprocessing and 14x14 conversion
+        |
+        v
+USB/UART or JTAG input wrapper
+        |
+        v
+board wrapper sends 196 pixels to ml_inference.sv
+        |
+        v
+digit + confidence + acceptance decision
+        |
+        +--> LEDs or temporary board output
+        +--> USB/UART result to the PC
+```
+
+The LCD touch controller is not shown in this primary path. It is an optional
+later input adapter only.
+
+The phrase “generate one known 14×14 test frame inside the FPGA” means a
+temporary hardware source, normally a small ROM or counter-controlled test
+pattern, connected to the same 196-pixel classifier interface. It is useful
+because it checks the complete FPGA `.sof` download and result display before
+LCD wiring is introduced. It is not the final handwriting input.
+
+### What is and is not complete
+
+| Stage | Status | Meaning |
+|---|---|---|
+| PC training and quantized reference | Complete | Model trained and exported |
+| SystemVerilog ML core | Complete reference | Accepts a streamed 14×14 frame |
+| UVM golden-vector verification | Complete | RTL results and handshaking checked in simulation |
+| PC-to-FPGA transport wrapper | Not yet implemented | Required for direct PC-photo testing |
+| Hardware test-frame wrapper | Optional fallback | Useful for checking the FPGA without a PC link |
+| LCD touch-to-14×14 wrapper | Not required here | Tracked by the separate LCD/ML integration project |
+| `.sof` download and physical digit display | Not yet completed | Requires the PC-input wrapper and pin constraints |
+
+Therefore, downloading the current standalone ML core would not yet accept a
+PC photo: its streaming ports are not connected to a board transport or
+display outputs. The next implementation step is the PC-input transport and
+board wrapper. LCD integration is intentionally postponed and is not a
+dependency of this project.
