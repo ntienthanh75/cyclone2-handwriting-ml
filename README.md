@@ -4,6 +4,9 @@ Specification for a reusable photo-to-digit FPGA inference project that recogniz
 
 Read [SPEC.md](SPEC.md) and the shared [board specification](https://github.com/ntienthanh75/fpga-cyclone2-5led/blob/main/docs/board-spec.md) before implementation. The canonical board specification covers the CoreEP2C5 connections to the LCD/touch module, SDRAM board, CY7C68013A FX2 USB FIFO, USB-Blaster/JTAG, LEDs, buzzer, clock, and reset. The local `BOARD_SPEC.md` is only a compatibility pointer. The first phase is PC photo normalization, training, and benchmarking with MNIST; the FPGA phase will implement reusable quantized inference. LCD touch and photo input must share the same classifier interface.
 
+Measured processing speed and throughput are documented in
+[`docs/processing-timing.md`](docs/processing-timing.md).
+
 ## PC baseline completed
 
 `python/train.py` now downloads MNIST, trains the `196 → 32 → 10` reference
