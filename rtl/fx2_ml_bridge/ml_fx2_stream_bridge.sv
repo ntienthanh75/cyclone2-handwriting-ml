@@ -1,6 +1,7 @@
 // Streaming CoreEP2C5 CY7C68013A to ML bridge.
 // PC sends A5A5 followed by 98 words, each containing two 4-bit pixels.
-// Pixels are consumed directly by the ML core; no full-frame buffer is used.
+// The complete frame is buffered before inference starts so repeated USB
+// transfers cannot overlap the ML input state machine.
 module ml_fx2_stream_bridge (
   input wire clk, input wire rst, input wire FLAGA, input wire FLAGB,
   input wire FLAGC, output reg SLOE, output reg SLRD, output wire [1:0] FIFOADR,
@@ -14,44 +15,58 @@ module ml_fx2_stream_bridge (
     else if (ml_step) step_acc <= step_acc + 6'd5 - 6'd50;
     else step_acc <= step_acc + 6'd5;
 
-  reg [1:0] rx_state;
+  reg [2:0] rx_state;
+  reg [5:0] rx_wait;
   reg [6:0] rx_count;
   reg [15:0] rx_word;
-  reg rx_pending, header_seen;
-  localparam RX_IDLE=0, RX_LOW=1, RX_CAPTURE=2;
-  reg frame_active, pixel_phase;
-  reg [7:0] pixel_index;
-  wire ml_valid = ml_step && frame_active && rx_pending;
-  wire [3:0] ml_pixel = pixel_phase ? rx_word[11:8] : rx_word[3:0];
-  wire ml_last = ml_valid && pixel_phase && (pixel_index == 8'd195);
+  reg header_seen, frame_ready;
+  localparam RX_IDLE=0, RX_WAIT=1, RX_LOW=2, RX_CAPTURE=3,
+             RX_STORE_LOW=4, RX_STORE_HIGH=5;
+  reg [7:0] feed_index;
+  wire ml_valid = ml_step && frame_ready;
+  wire [3:0] frame_ram_q;
+  wire [7:0] frame_ram_write_addr = (rx_state == RX_STORE_LOW) ?
+                                     {rx_count,1'b0} : ({rx_count,1'b0} + 1'b1);
+  wire [3:0] frame_ram_write_data = (rx_state == RX_STORE_LOW) ?
+                                     rx_word[3:0] : rx_word[11:8];
+  wire frame_ram_wren = (rx_state == RX_STORE_LOW) || (rx_state == RX_STORE_HIGH);
+  wire [3:0] ml_pixel = frame_ram_q;
+  wire [7:0] ml_pixel_index = feed_index;
+  wire ml_last = ml_valid && (feed_index == 8'd195);
 
   reg [15:0] fifo_out_data;
+  reg [15:0] tx_word_reg;
   reg [1:0] tx_state;
-  reg [3:0] tx_index;
+    reg [2:0] tx_index;
+  reg [2:0] tx_wait;
   reg result_pending, saved_accepted;
-  reg [3:0] saved_digit;
-  reg [7:0] saved_confidence;
-  reg [15:0] saved_margin;
-  reg [31:0] saved_cycles;
+    reg [3:0] saved_digit;
+    reg [7:0] saved_confidence;
+    reg [15:0] saved_margin;
+    reg [31:0] saved_cycles;
+    reg [1:0] tx_packet_count;
   localparam TX_IDLE=0, TX_SETUP=1, TX_WRITE=2, TX_NEXT=3;
   wire ml_busy, ml_result_valid, ml_result_accepted;
   wire [3:0] ml_result_digit;
   wire [7:0] ml_result_confidence;
   wire [15:0] ml_result_margin;
   wire [31:0] ml_result_cycles;
-  wire [15:0] tx_word = (tx_index==0) ? 16'h5A5A :
-                        (tx_index==1) ? {7'b0,saved_accepted,4'b0,saved_digit} :
-                        (tx_index==2) ? {8'b0,saved_confidence} :
-                        (tx_index==3) ? saved_margin :
-                        (tx_index==4) ? saved_cycles[15:0] :
-                        (tx_index==5) ? saved_cycles[31:16] : 16'd0;
   assign FIFODATA = !SLWR ? fifo_out_data : 16'hzzzz;
   assign FIFOADR = (tx_state != TX_IDLE) ? 2'b10 : 2'b00;
   assign buzz = 1'b1;
 
+  altsyncram #(
+    .operation_mode("DUAL_PORT"), .width_a(4), .widthad_a(8), .numwords_a(256),
+    .width_b(4), .widthad_b(8), .numwords_b(256),
+    .outdata_reg_b("UNREGISTERED"), .lpm_type("altsyncram")
+  ) frame_ram (
+    .clock0(clk), .address_a(frame_ram_write_addr), .data_a(frame_ram_write_data),
+    .wren_a(frame_ram_wren), .clock1(clk), .address_b(feed_index), .q_b(frame_ram_q)
+  );
+
   ml_inference #(.CONFIDENCE_THRESHOLD(0), .MARGIN_THRESHOLD(0)) core_i (
     .clk(clk), .reset_n(rst), .clock_enable(ml_step),
-    .input_frame_valid(ml_valid), .input_pixel_index(pixel_index),
+    .input_frame_valid(ml_valid), .input_pixel_index(ml_pixel_index),
     .input_pixel(ml_pixel), .input_frame_last(ml_last), .input_frame_error(1'b0),
     .busy(ml_busy), .result_valid(ml_result_valid),
     .result_accepted(ml_result_accepted), .result_digit(ml_result_digit),
@@ -60,30 +75,57 @@ module ml_fx2_stream_bridge (
 
   always @(posedge clk or negedge rst) begin
     if (!rst) begin
-      rx_state<=RX_IDLE; rx_count<=0; rx_word<=0; rx_pending<=0;
-      header_seen<=0; SLOE<=1; SLRD<=1; frame_active<=0;
-      pixel_phase<=0; pixel_index<=0;
+      rx_state<=RX_IDLE; rx_wait<=0; rx_count<=0;
+      header_seen<=0; frame_ready<=0; feed_index<=0;
+      SLOE<=1; SLRD<=1;
     end else begin
       SLOE<=1; SLRD<=1;
       case (rx_state)
-        RX_IDLE: if (FLAGA && !rx_pending && !frame_active) rx_state<=RX_LOW;
-        RX_LOW: begin SLOE<=0; SLRD<=0; rx_state<=RX_CAPTURE; end
+        // PINFLAGSAB maps FLAGA to EP2 empty.  In the loaded FX2 firmware it
+        // is high when OUT data is available.  Wait 32 CoreEP2C5 clock cycles
+        // after the asynchronous flag transition before asserting SLRD/SLOE;
+        // this avoids sampling the FX2 bus's idle pattern (0x5A5A).
+        RX_IDLE: if (FLAGA && !frame_ready && !result_pending) begin
+          rx_wait <= 0;
+          rx_state <= RX_WAIT;
+        end
+        RX_WAIT: begin
+          if (!FLAGA) rx_state <= RX_IDLE;
+          else if (rx_wait == 6'd31) begin
+            rx_wait <= 0;
+            rx_state <= RX_LOW;
+          end else rx_wait <= rx_wait + 1'b1;
+        end
+        RX_LOW: begin
+          SLOE<=0; SLRD<=0;
+          if (rx_wait == 6'd3) begin
+            rx_wait <= 0;
+            rx_state <= RX_CAPTURE;
+          end else rx_wait <= rx_wait + 1'b1;
+        end
         RX_CAPTURE: begin
-          if (!header_seen && FIFODATA==16'hA5A5) begin header_seen<=1; rx_count<=0; end
-          else if (header_seen && rx_count<98) begin rx_word<=FIFODATA; rx_pending<=1; rx_count<=rx_count+1; end
+          if (!header_seen && FIFODATA==16'hA5A5) begin header_seen<=1; rx_count<=0; rx_state<=RX_IDLE; end
+          else if (header_seen && rx_count<98) begin
+            rx_word <= FIFODATA;
+            rx_state <= RX_STORE_LOW;
+          end else rx_state<=RX_IDLE;
+        end
+        RX_STORE_LOW: begin
+          rx_state <= RX_STORE_HIGH;
+        end
+        RX_STORE_HIGH: begin
+            if (rx_count == 7'd97) begin
+              frame_ready <= 1'b1;
+              feed_index <= 0;
+              header_seen <= 1'b0;
+            end else rx_count <= rx_count + 1'b1;
           rx_state<=RX_IDLE;
         end
         default: rx_state<=RX_IDLE;
       endcase
-      if (ml_step) begin
-        if (!frame_active && rx_pending) begin frame_active<=1; pixel_phase<=0; pixel_index<=0; end
-        else if (frame_active && rx_pending) begin
-          if (!pixel_phase) begin pixel_phase<=1; pixel_index<=pixel_index+1; end
-          else begin
-            pixel_phase<=0; rx_pending<=0;
-            if (pixel_index==195) begin frame_active<=0; header_seen<=0; end
-          end
-        end
+      if (ml_step && frame_ready) begin
+        if (feed_index == 8'd195) frame_ready <= 1'b0;
+        else feed_index <= feed_index + 1'b1;
       end
     end
   end
@@ -91,8 +133,11 @@ module ml_fx2_stream_bridge (
   always @(posedge clk or negedge rst) begin
     if (!rst) begin
       result_pending<=0; saved_digit<=0; saved_accepted<=0; saved_confidence<=0;
-      saved_margin<=0; saved_cycles<=0; tx_state<=TX_IDLE; tx_index<=0;
-      SLWR<=1; fifo_out_data<=0; led<=4'b1111;
+      saved_margin<=0; saved_cycles<=0;
+      tx_state<=TX_IDLE; tx_index<=0;
+      tx_packet_count<=0;
+      tx_wait<=0;
+      tx_word_reg<=0; SLWR<=1; fifo_out_data<=0; led<=4'b1111;
     end else begin
       SLWR<=1;
       if (ml_result_valid) begin
@@ -101,11 +146,46 @@ module ml_fx2_stream_bridge (
         saved_cycles<=ml_result_cycles; led<=~ml_result_digit;
       end
       case (tx_state)
-        TX_IDLE: if (result_pending && !FLAGB) begin tx_index<=0; tx_state<=TX_SETUP; end
-        TX_SETUP: begin fifo_out_data<=tx_word; tx_state<=TX_WRITE; end
-        TX_WRITE: begin fifo_out_data<=tx_word; SLWR<=0; tx_state<=TX_NEXT; end
-        TX_NEXT: if (tx_index==5) begin result_pending<=0; tx_state<=TX_IDLE; end
-                 else begin tx_index<=tx_index+1; tx_state<=TX_SETUP; end
+        // FLAGB is the original EP2 input-full flag in the board design.  It
+        // is not the EP6 IN readiness flag, so it must not gate the result
+        // packet transmission.
+        TX_IDLE: if (result_pending) begin
+          tx_index<=0; tx_packet_count<=0; tx_wait<=0; tx_word_reg<=16'hC33C;
+          fifo_out_data<=16'hC33C; tx_state<=TX_SETUP;
+        end
+        TX_SETUP: begin
+          fifo_out_data<=tx_word_reg;
+          // FX2 asynchronous SLWR high time is 70 ns minimum.
+          if (tx_wait==3) begin tx_wait<=0; tx_state<=TX_WRITE; end
+          else tx_wait<=tx_wait+1'b1;
+        end
+        TX_WRITE: begin
+          // CY7C68013A asynchronous SLWR low time is 50 ns minimum.
+          // Three 50 MHz clocks provide one 60 ns write pulse.
+          fifo_out_data<=tx_word_reg; SLWR<=0;
+          if (tx_wait==2) begin tx_wait<=0; tx_state<=TX_NEXT; end
+          else tx_wait<=tx_wait+1'b1;
+        end
+        TX_NEXT: if (tx_index==5) begin
+                   if (tx_packet_count==1) begin
+                     result_pending<=0; tx_state<=TX_IDLE;
+                   end else begin
+                     tx_packet_count<=tx_packet_count+1'b1;
+                     tx_index<=0; tx_word_reg<=16'hC33C; tx_state<=TX_SETUP;
+                   end
+                 end
+                 else begin
+                   tx_index<=tx_index+1;
+                   case (tx_index)
+                     0: tx_word_reg<={7'b0,saved_accepted,4'b0,saved_digit};
+                     1: tx_word_reg<={8'b0,saved_confidence};
+                     2: tx_word_reg<=saved_margin;
+                     3: tx_word_reg<=saved_cycles[15:0];
+                     4: tx_word_reg<=saved_cycles[31:16];
+                     default: tx_word_reg<=16'd0;
+                   endcase
+                   tx_state<=TX_SETUP;
+                 end
         default: tx_state<=TX_IDLE;
       endcase
     end

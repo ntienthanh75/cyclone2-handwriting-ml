@@ -1,0 +1,2 @@
+Info (10281): Verilog HDL Declaration information at ml_fx2_stream_bridge.sv(19): object "rx_wait" differs only in case from object "RX_WAIT" in the same scope
+Warning (10268): Verilog HDL information at ml_inference.sv(49): always construct contains both blocking and non-blocking assignments

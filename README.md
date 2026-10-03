@@ -34,6 +34,61 @@ LCD touch is deliberately outside the required path and is tracked separately
 in `D:\fpga\lcd_touch_ml\README.md`. The classifier must be testable without
 connecting or programming the LCD.
 
+## 200-sample hardware benchmark
+
+On 2026-10-03, the first 200 labeled images from the downloaded MNIST test
+resource (`t10k-images-idx3-ubyte.gz` and `t10k-labels-idx1-ubyte.gz`) were
+normalized with the same `normalize_mnist()` function used by training and
+sent through the physical CY7C68013A FX2 WinUSB bridge to the FPGA. The
+complete per-sample record is saved in
+`artifacts/hardware_benchmark_200.csv` (the dataset itself remains ignored).
+
+| Metric | Result |
+|---|---:|
+| Samples attempted | 200 |
+| FPGA responses accepted | 200 (100.00%) |
+| Correct labels | 17 (8.50%) |
+| Accuracy among accepted responses | 8.50% |
+| Transport recoveries | 19 |
+| Unrecovered transport errors | 0 |
+
+This is a successful transport/liveness benchmark but a failing ML-accuracy
+benchmark. The FPGA repeatedly predicted digit 5 (the most common prediction
+in this run), so the result must not be presented as a working handwriting
+recognizer. The small earlier 10/10 result only checked repeated identical
+responses for one synthetic four-point frame; it did not measure MNIST
+accuracy.
+
+Reproduce it with:
+
+```powershell
+$env:PYTHONPATH='D:\Programs\cyclone2_ml\python-libs;D:\fpga\cyclone2-handwriting-ml\python'
+python python\run_hardware_benchmark.py --data data\mnist --count 200 `
+  --out artifacts\hardware_benchmark_200.csv
+```
+
+The benchmark script writes one row per labeled sample, including expected
+label, FPGA digit, acceptance, confidence, margin, FPGA cycle count, transport
+time, correctness, and any recovery/error.
+
+### Accuracy issue found by the benchmark
+
+The PC preprocessing and transport are not enough to prove that the FPGA is
+using numerically equivalent weights. The 100% response rate with only 8.50%
+accuracy points to an inference/data-path mismatch rather than a missing USB
+response. The likely candidates are the fixed-point scale/sign convention,
+MIF weight/bias ordering, or a frame/accumulator state error. The 19 recoveries
+are a separate FX2 packet-boundary/flush issue; they were recovered without
+losing a benchmark row.
+
+The resolution path is now explicit: compare the FPGA result against the
+Python quantized reference for the same 200 normalized frames, then add a
+cycle-by-cycle directed UVM scoreboard using those vectors. Verify MIF address
+ordering and signed arithmetic before changing the network or thresholds.
+Only after that comparison passes should the `.sof` be called an accurate
+hardware classifier. See [verification/ISSUES_AND_LESSONS.md](verification/ISSUES_AND_LESSONS.md)
+for the root-cause tracking entry.
+
 ## Primary test path: PC photo to FPGA
 
 The intended benchmark path is:
@@ -244,6 +299,20 @@ The detailed troubleshooting and learning record is in
 
 ## Processing flow: from a test frame to a digit
 
+The PC-input path is now implemented and hardware-tested through the
+CY7C68013A FX2 bridge. LCD touch remains deliberately outside this benchmark.
+
+```text
+PC 14x14 frame
+  -> pack as A5A5 + 98 little-endian 16-bit words
+  -> FX2 EP2 OUT
+  -> Cyclone II FIFO receiver and dual-port frame RAM
+  -> SystemVerilog ML core at the 5 MHz enable rate
+  -> two result frames grouped in one 24-byte EP6 packet
+  -> FX2 EP6 IN
+  -> PC decoder scans C33C marker and benchmark report
+```
+
 The current project has two different execution paths. The first path is
 already implemented and verified in simulation. The second path is the future
 board integration path; it is described here so the boundary is clear.
@@ -314,13 +383,12 @@ LCD wiring is introduced. It is not the final handwriting input.
 | PC training and quantized reference | Complete | Model trained and exported |
 | SystemVerilog ML core | Complete reference | Accepts a streamed 14×14 frame |
 | UVM golden-vector verification | Complete | RTL results and handshaking checked in simulation |
-| PC-to-FPGA transport wrapper | Not yet implemented | Required for direct PC-photo testing |
+| PC-to-FPGA transport wrapper | Complete and hardware-tested | WinUSB EP2/EP6 bridge |
 | Hardware test-frame wrapper | Optional fallback | Useful for checking the FPGA without a PC link |
 | LCD touch-to-14×14 wrapper | Not required here | Tracked by the separate LCD/ML integration project |
-| `.sof` download and physical digit display | Not yet completed | Requires the PC-input wrapper and pin constraints |
+| `.sof` download and physical PC-photo inference | Complete for four-point benchmark | Photo UI uses the same packed-frame path |
 
-Therefore, downloading the current standalone ML core would not yet accept a
-PC photo: its streaming ports are not connected to a board transport or
-display outputs. The next implementation step is the PC-input transport and
-board wrapper. LCD integration is intentionally postponed and is not a
-dependency of this project.
+The standalone ML core is connected to the board transport in
+`rtl/fx2_ml_bridge/`. Use its README and `python/run_hardware_benchmark.py` for
+the reproducible hardware test. LCD integration is intentionally postponed and
+is not a dependency of this project.

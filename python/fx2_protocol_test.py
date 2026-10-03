@@ -39,8 +39,8 @@ def unpack_frame(words: list[int]) -> list[int]:
 
 
 def decode_result(words: list[int]) -> dict[str, int | bool]:
-    if len(words) != 6 or words[0] != 0x5A5A:
-        raise ValueError("result must contain six words beginning with 5A5A")
+    if len(words) != 6 or words[0] != 0xC33C:
+        raise ValueError("result must contain six words beginning with C33C")
     return {
         "accepted": bool((words[1] >> 8) & 1),
         "digit": words[1] & 0xF,
@@ -61,7 +61,7 @@ def main() -> None:
     if args.write:
         args.write.write_text("\n".join(f"0x{word:04X}" for word in words) + "\n", encoding="ascii")
     print(f"PASS: {len(words)} TX words, {len(unpack_frame(words))} pixels, row-major order preserved")
-    print("Example result:", decode_result([0x5A5A, 0x0107, 0x0042, 0x0010, 0x1234, 0x0000]))
+    print("Example result:", decode_result([0xC33C, 0x0107, 0x0042, 0x0010, 0x1234, 0x0000]))
 
 
 if __name__ == "__main__":

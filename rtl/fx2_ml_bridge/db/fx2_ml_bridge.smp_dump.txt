@@ -1,0 +1,28 @@
+
+State Machine - |ml_fx2_stream_bridge|tx_state
+Name tx_state.TX_NEXT tx_state.TX_WRITE tx_state.TX_SETUP tx_state.TX_IDLE 
+tx_state.TX_IDLE 0 0 0 0 
+tx_state.TX_SETUP 0 0 1 1 
+tx_state.TX_WRITE 0 1 0 1 
+tx_state.TX_NEXT 1 0 0 1 
+
+State Machine - |ml_fx2_stream_bridge|rx_state
+Name rx_state.RX_STORE_HIGH rx_state.RX_STORE_LOW rx_state.RX_CAPTURE rx_state.RX_LOW rx_state.RX_WAIT rx_state.RX_IDLE 
+rx_state.RX_IDLE 0 0 0 0 0 0 
+rx_state.RX_WAIT 0 0 0 0 1 1 
+rx_state.RX_LOW 0 0 0 1 0 1 
+rx_state.RX_CAPTURE 0 0 1 0 0 1 
+rx_state.RX_STORE_LOW 0 1 0 0 0 1 
+rx_state.RX_STORE_HIGH 1 0 0 0 0 1 
+
+State Machine - |ml_fx2_stream_bridge|ml_inference:core_i|state
+Name state.FINISH state.O_MAC state.O_SETUP state.H_NEXT state.H_MAC state.H_SETUP state.LOAD state.IDLE state.REJECT_FRAME 
+state.IDLE 0 0 0 0 0 0 0 0 0 
+state.LOAD 0 0 0 0 0 0 1 1 0 
+state.H_SETUP 0 0 0 0 0 1 0 1 0 
+state.H_MAC 0 0 0 0 1 0 0 1 0 
+state.H_NEXT 0 0 0 1 0 0 0 1 0 
+state.O_SETUP 0 0 1 0 0 0 0 1 0 
+state.O_MAC 0 1 0 0 0 0 0 1 0 
+state.FINISH 1 0 0 0 0 0 0 1 0 
+state.REJECT_FRAME 0 0 0 0 0 0 0 1 1 

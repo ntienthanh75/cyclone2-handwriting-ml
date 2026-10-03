@@ -1,0 +1,7 @@
+
+State Machine - |fx2_transport_test|tx_state
+Name tx_state.TX_NEXT tx_state.TX_WRITE tx_state.TX_SETUP tx_state.TX_IDLE 
+tx_state.TX_IDLE 0 0 0 0 
+tx_state.TX_SETUP 0 0 1 1 
+tx_state.TX_WRITE 0 1 0 1 
+tx_state.TX_NEXT 1 0 0 1 

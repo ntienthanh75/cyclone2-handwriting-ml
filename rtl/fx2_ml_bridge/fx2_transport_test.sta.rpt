@@ -1,0 +1,1181 @@
+TimeQuest Timing Analyzer report for fx2_transport_test
+Fri Oct 02 23:31:08 2026
+Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. TimeQuest Timing Analyzer Summary
+  3. Parallel Compilation
+  4. SDC File List
+  5. Clocks
+  6. Slow Model Fmax Summary
+  7. Slow Model Setup Summary
+  8. Slow Model Hold Summary
+  9. Slow Model Recovery Summary
+ 10. Slow Model Removal Summary
+ 11. Slow Model Minimum Pulse Width Summary
+ 12. Slow Model Setup: 'clk'
+ 13. Slow Model Hold: 'clk'
+ 14. Slow Model Minimum Pulse Width: 'clk'
+ 15. Setup Times
+ 16. Hold Times
+ 17. Clock to Output Times
+ 18. Minimum Clock to Output Times
+ 19. Fast Model Setup Summary
+ 20. Fast Model Hold Summary
+ 21. Fast Model Recovery Summary
+ 22. Fast Model Removal Summary
+ 23. Fast Model Minimum Pulse Width Summary
+ 24. Fast Model Setup: 'clk'
+ 25. Fast Model Hold: 'clk'
+ 26. Fast Model Minimum Pulse Width: 'clk'
+ 27. Setup Times
+ 28. Hold Times
+ 29. Clock to Output Times
+ 30. Minimum Clock to Output Times
+ 31. Multicorner Timing Analysis Summary
+ 32. Setup Times
+ 33. Hold Times
+ 34. Clock to Output Times
+ 35. Minimum Clock to Output Times
+ 36. Setup Transfers
+ 37. Hold Transfers
+ 38. Report TCCS
+ 39. Report RSKM
+ 40. Unconstrained Paths
+ 41. TimeQuest Timing Analyzer Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++----------------------------------------------------------------------------------------+
+; TimeQuest Timing Analyzer Summary                                                      ;
++--------------------+-------------------------------------------------------------------+
+; Quartus II Version ; Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition ;
+; Revision Name      ; fx2_transport_test                                                ;
+; Device Family      ; Cyclone II                                                        ;
+; Device Name        ; EP2C5T144C8                                                       ;
+; Timing Models      ; Final                                                             ;
+; Delay Model        ; Combined                                                          ;
+; Rise/Fall Delays   ; Unavailable                                                       ;
++--------------------+-------------------------------------------------------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 6           ;
+; Maximum allowed            ; 6           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 2           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processor 2            ; < 0.1%      ;
+;     Processors 3-6         ;   0.0%      ;
++----------------------------+-------------+
+
+
++-------------------------------------------------------+
+; SDC File List                                         ;
++-------------------+--------+--------------------------+
+; SDC File Path     ; Status ; Read at                  ;
++-------------------+--------+--------------------------+
+; fx2_ml_bridge.sdc ; OK     ; Fri Oct 02 23:31:07 2026 ;
++-------------------+--------+--------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clocks                                                                                                                                                                          ;
++------------+------+--------+-----------+-------+--------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+---------+
+; Clock Name ; Type ; Period ; Frequency ; Rise  ; Fall   ; Duty Cycle ; Divide by ; Multiply by ; Phase ; Offset ; Edge List ; Edge Shift ; Inverted ; Master ; Source ; Targets ;
++------------+------+--------+-----------+-------+--------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+---------+
+; clk        ; Base ; 20.000 ; 50.0 MHz  ; 0.000 ; 10.000 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { clk } ;
++------------+------+--------+-----------+-------+--------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+---------+
+
+
++------------------------------------------------------------------------------------------------------------+
+; Slow Model Fmax Summary                                                                                    ;
++-------------+-----------------+------------+---------------------------------------------------------------+
+; Fmax        ; Restricted Fmax ; Clock Name ; Note                                                          ;
++-------------+-----------------+------------+---------------------------------------------------------------+
+; 1652.89 MHz ; 340.02 MHz      ; clk        ; limit due to minimum period restriction (max I/O toggle rate) ;
++-------------+-----------------+------------+---------------------------------------------------------------+
+This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
+
+
++---------------------------------+
+; Slow Model Setup Summary        ;
++-------+---------+---------------+
+; Clock ; Slack   ; End Point TNS ;
++-------+---------+---------------+
+; clk   ; 193.954 ; 0.000         ;
++-------+---------+---------------+
+
+
++-------------------------------+
+; Slow Model Hold Summary       ;
++-------+-------+---------------+
+; Clock ; Slack ; End Point TNS ;
++-------+-------+---------------+
+; clk   ; 0.499 ; 0.000         ;
++-------+-------+---------------+
+
+
+-------------------------------
+; Slow Model Recovery Summary ;
+-------------------------------
+No paths to report.
+
+
+------------------------------
+; Slow Model Removal Summary ;
+------------------------------
+No paths to report.
+
+
++----------------------------------------+
+; Slow Model Minimum Pulse Width Summary ;
++-------+-------+------------------------+
+; Clock ; Slack ; End Point TNS          ;
++-------+-------+------------------------+
+; clk   ; 8.758 ; 0.000                  ;
++-------+-------+------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------+
+; Slow Model Setup: 'clk'                                                                                               ;
++---------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
+; Slack   ; From Node         ; To Node           ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++---------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
+; 193.954 ; rx_wait[1]        ; led[0]~reg0       ; clk          ; clk         ; 200.000      ; 0.002      ; 6.088      ;
+; 193.954 ; rx_wait[1]        ; led[2]~reg0       ; clk          ; clk         ; 200.000      ; 0.002      ; 6.088      ;
+; 194.184 ; rx_state          ; led[0]~reg0       ; clk          ; clk         ; 200.000      ; 0.002      ; 5.858      ;
+; 194.184 ; rx_state          ; led[2]~reg0       ; clk          ; clk         ; 200.000      ; 0.002      ; 5.858      ;
+; 194.463 ; rx_wait[2]        ; led[0]~reg0       ; clk          ; clk         ; 200.000      ; 0.002      ; 5.579      ;
+; 194.463 ; rx_wait[2]        ; led[2]~reg0       ; clk          ; clk         ; 200.000      ; 0.002      ; 5.579      ;
+; 194.618 ; rx_wait[0]        ; led[0]~reg0       ; clk          ; clk         ; 200.000      ; 0.002      ; 5.424      ;
+; 194.618 ; rx_wait[0]        ; led[2]~reg0       ; clk          ; clk         ; 200.000      ; 0.002      ; 5.424      ;
+; 194.983 ; rx_wait[1]        ; tx_pending        ; clk          ; clk         ; 200.000      ; 0.002      ; 5.059      ;
+; 195.213 ; rx_state          ; tx_pending        ; clk          ; clk         ; 200.000      ; 0.002      ; 4.829      ;
+; 195.492 ; rx_wait[2]        ; tx_pending        ; clk          ; clk         ; 200.000      ; 0.002      ; 4.550      ;
+; 195.647 ; rx_wait[0]        ; tx_pending        ; clk          ; clk         ; 200.000      ; 0.002      ; 4.395      ;
+; 195.820 ; tx_state.TX_IDLE  ; tx_state.TX_WRITE ; clk          ; clk         ; 200.000      ; 0.000      ; 4.220      ;
+; 195.913 ; tx_state.TX_SETUP ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 4.127      ;
+; 195.913 ; tx_state.TX_SETUP ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; 0.000      ; 4.127      ;
+; 195.987 ; tx_state.TX_SETUP ; tx_state.TX_WRITE ; clk          ; clk         ; 200.000      ; 0.000      ; 4.053      ;
+; 195.993 ; tx_pending        ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 4.047      ;
+; 195.993 ; tx_pending        ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; 0.000      ; 4.047      ;
+; 196.068 ; tx_state.TX_IDLE  ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.972      ;
+; 196.068 ; tx_state.TX_IDLE  ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.972      ;
+; 196.068 ; tx_state.TX_IDLE  ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.972      ;
+; 196.109 ; tx_index[1]       ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.931      ;
+; 196.109 ; tx_index[1]       ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.931      ;
+; 196.109 ; tx_index[1]       ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.931      ;
+; 196.150 ; tx_index[2]       ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.890      ;
+; 196.150 ; tx_index[2]       ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.890      ;
+; 196.150 ; tx_index[2]       ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.890      ;
+; 196.195 ; tx_wait[0]        ; tx_state.TX_WRITE ; clk          ; clk         ; 200.000      ; 0.000      ; 3.845      ;
+; 196.241 ; tx_state.TX_NEXT  ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.799      ;
+; 196.241 ; tx_state.TX_NEXT  ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.799      ;
+; 196.241 ; tx_state.TX_NEXT  ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.799      ;
+; 196.408 ; tx_wait[0]        ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 3.632      ;
+; 196.408 ; tx_wait[0]        ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; 0.000      ; 3.632      ;
+; 196.414 ; tx_index[0]       ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.626      ;
+; 196.414 ; tx_index[0]       ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.626      ;
+; 196.414 ; tx_index[0]       ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.626      ;
+; 196.469 ; tx_state.TX_WRITE ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 3.571      ;
+; 196.469 ; tx_state.TX_WRITE ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; 0.000      ; 3.571      ;
+; 196.483 ; tx_wait[2]        ; tx_state.TX_WRITE ; clk          ; clk         ; 200.000      ; 0.000      ; 3.557      ;
+; 196.538 ; tx_state.TX_IDLE  ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 3.502      ;
+; 196.538 ; tx_state.TX_IDLE  ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; 0.000      ; 3.502      ;
+; 196.569 ; tx_index[1]       ; tx_index[1]       ; clk          ; clk         ; 200.000      ; 0.000      ; 3.471      ;
+; 196.583 ; tx_wait[0]        ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.457      ;
+; 196.588 ; tx_wait[0]        ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.452      ;
+; 196.609 ; tx_index[2]       ; tx_index[1]       ; clk          ; clk         ; 200.000      ; 0.000      ; 3.431      ;
+; 196.633 ; tx_wait[1]        ; tx_state.TX_WRITE ; clk          ; clk         ; 200.000      ; 0.000      ; 3.407      ;
+; 196.644 ; tx_state.TX_WRITE ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.396      ;
+; 196.649 ; tx_state.TX_WRITE ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.391      ;
+; 196.668 ; tx_state.TX_NEXT  ; tx_index[1]       ; clk          ; clk         ; 200.000      ; 0.000      ; 3.372      ;
+; 196.690 ; tx_wait[2]        ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 3.350      ;
+; 196.690 ; tx_wait[2]        ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; 0.000      ; 3.350      ;
+; 196.799 ; tx_pending        ; tx_state.TX_WRITE ; clk          ; clk         ; 200.000      ; 0.000      ; 3.241      ;
+; 196.837 ; tx_index[0]       ; tx_index[1]       ; clk          ; clk         ; 200.000      ; 0.000      ; 3.203      ;
+; 196.852 ; tx_wait[1]        ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 3.188      ;
+; 196.852 ; tx_wait[1]        ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; 0.000      ; 3.188      ;
+; 196.865 ; tx_wait[2]        ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.175      ;
+; 196.870 ; tx_wait[2]        ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.170      ;
+; 196.997 ; tx_index[1]       ; tx_index[2]       ; clk          ; clk         ; 200.000      ; 0.000      ; 3.043      ;
+; 197.027 ; tx_wait[1]        ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.013      ;
+; 197.032 ; tx_wait[1]        ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 3.008      ;
+; 197.037 ; tx_index[2]       ; tx_index[2]       ; clk          ; clk         ; 200.000      ; 0.000      ; 3.003      ;
+; 197.046 ; tx_pending        ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 2.994      ;
+; 197.046 ; tx_pending        ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 2.994      ;
+; 197.046 ; tx_pending        ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 2.994      ;
+; 197.096 ; tx_state.TX_NEXT  ; tx_index[2]       ; clk          ; clk         ; 200.000      ; 0.000      ; 2.944      ;
+; 197.102 ; tx_pending        ; tx_index[1]       ; clk          ; clk         ; 200.000      ; 0.000      ; 2.938      ;
+; 197.107 ; tx_pending        ; tx_index[0]       ; clk          ; clk         ; 200.000      ; 0.000      ; 2.933      ;
+; 197.186 ; tx_index[1]       ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 2.854      ;
+; 197.226 ; tx_index[2]       ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 2.814      ;
+; 197.265 ; tx_index[0]       ; tx_index[2]       ; clk          ; clk         ; 200.000      ; 0.000      ; 2.775      ;
+; 197.285 ; tx_state.TX_NEXT  ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 2.755      ;
+; 197.454 ; tx_index[0]       ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 2.586      ;
+; 197.530 ; tx_pending        ; tx_index[2]       ; clk          ; clk         ; 200.000      ; 0.000      ; 2.510      ;
+; 197.551 ; tx_index[1]       ; tx_index[0]       ; clk          ; clk         ; 200.000      ; 0.000      ; 2.489      ;
+; 197.558 ; tx_state.TX_NEXT  ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; 0.000      ; 2.482      ;
+; 197.591 ; tx_index[2]       ; tx_index[0]       ; clk          ; clk         ; 200.000      ; 0.000      ; 2.449      ;
+; 197.645 ; tx_state.TX_IDLE  ; tx_index[1]       ; clk          ; clk         ; 200.000      ; 0.000      ; 2.395      ;
+; 197.650 ; tx_state.TX_NEXT  ; tx_index[0]       ; clk          ; clk         ; 200.000      ; 0.000      ; 2.390      ;
+; 197.652 ; tx_state.TX_IDLE  ; tx_index[0]       ; clk          ; clk         ; 200.000      ; 0.000      ; 2.388      ;
+; 197.714 ; rx_wait[1]        ; rx_state          ; clk          ; clk         ; 200.000      ; 0.000      ; 2.326      ;
+; 197.819 ; tx_index[0]       ; tx_index[0]       ; clk          ; clk         ; 200.000      ; 0.000      ; 2.221      ;
+; 197.842 ; rx_state          ; rx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 2.198      ;
+; 197.842 ; rx_state          ; rx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 2.198      ;
+; 197.842 ; rx_state          ; rx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 2.198      ;
+; 197.865 ; tx_state.TX_IDLE  ; tx_pending        ; clk          ; clk         ; 200.000      ; 0.000      ; 2.175      ;
+; 197.948 ; tx_wait[0]        ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 2.092      ;
+; 197.949 ; rx_state          ; rx_state          ; clk          ; clk         ; 200.000      ; 0.000      ; 2.091      ;
+; 198.009 ; tx_state.TX_WRITE ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 2.031      ;
+; 198.073 ; tx_state.TX_IDLE  ; tx_index[2]       ; clk          ; clk         ; 200.000      ; 0.000      ; 1.967      ;
+; 198.183 ; rx_state          ; SLRD~reg0         ; clk          ; clk         ; 200.000      ; 0.000      ; 1.857      ;
+; 198.214 ; tx_wait[2]        ; tx_state.TX_NEXT  ; clk          ; clk         ; 200.000      ; 0.000      ; 1.826      ;
+; 198.230 ; tx_wait[2]        ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.810      ;
+; 198.232 ; rx_wait[2]        ; rx_state          ; clk          ; clk         ; 200.000      ; 0.000      ; 1.808      ;
+; 198.272 ; rx_wait[1]        ; rx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.768      ;
+; 198.367 ; tx_wait[1]        ; tx_state.TX_NEXT  ; clk          ; clk         ; 200.000      ; 0.000      ; 1.673      ;
+; 198.381 ; rx_wait[0]        ; rx_state          ; clk          ; clk         ; 200.000      ; 0.000      ; 1.659      ;
+; 198.392 ; tx_wait[1]        ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.648      ;
+; 198.485 ; rx_wait[2]        ; rx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.555      ;
+; 198.493 ; tx_index[1]       ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; 0.000      ; 1.547      ;
+; 198.531 ; rx_wait[2]        ; rx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.509      ;
++---------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
+
+
++---------------------------------------------------------------------------------------------------------------------+
+; Slow Model Hold: 'clk'                                                                                              ;
++-------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node         ; To Node           ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
+; 0.499 ; rx_wait[2]        ; rx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.499 ; rx_wait[1]        ; rx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.499 ; rx_wait[0]        ; rx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.499 ; rx_state          ; rx_state          ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.499 ; tx_wait[0]        ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.499 ; tx_wait[2]        ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.499 ; tx_state.TX_NEXT  ; tx_state.TX_NEXT  ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.499 ; tx_index[1]       ; tx_index[1]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.499 ; tx_index[2]       ; tx_index[2]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.499 ; tx_index[0]       ; tx_index[0]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.499 ; tx_pending        ; tx_pending        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.499 ; tx_wait[1]        ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.499 ; tx_state.TX_WRITE ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 0.805      ;
+; 0.777 ; tx_state.TX_WRITE ; SLWR~reg0         ; clk          ; clk         ; 0.000        ; 0.000      ; 1.083      ;
+; 0.778 ; tx_wait[1]        ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.084      ;
+; 0.782 ; tx_wait[0]        ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.088      ;
+; 0.795 ; rx_wait[0]        ; rx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.101      ;
+; 0.796 ; rx_wait[0]        ; rx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.102      ;
+; 0.800 ; rx_state          ; rx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.106      ;
+; 0.802 ; rx_state          ; SLOE~reg0         ; clk          ; clk         ; 0.000        ; 0.000      ; 1.108      ;
+; 0.936 ; tx_index[0]       ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 1.242      ;
+; 1.099 ; tx_state.TX_NEXT  ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.405      ;
+; 1.102 ; tx_state.TX_NEXT  ; tx_index[1]       ; clk          ; clk         ; 0.000        ; 0.000      ; 1.408      ;
+; 1.106 ; tx_wait[0]        ; tx_state.TX_NEXT  ; clk          ; clk         ; 0.000        ; 0.000      ; 1.412      ;
+; 1.106 ; tx_state.TX_NEXT  ; tx_index[0]       ; clk          ; clk         ; 0.000        ; 0.000      ; 1.412      ;
+; 1.109 ; tx_state.TX_NEXT  ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 1.415      ;
+; 1.153 ; tx_state.TX_WRITE ; tx_state.TX_NEXT  ; clk          ; clk         ; 0.000        ; 0.000      ; 1.459      ;
+; 1.172 ; rx_wait[1]        ; rx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.478      ;
+; 1.180 ; tx_state.TX_NEXT  ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 1.486      ;
+; 1.200 ; tx_index[2]       ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 1.506      ;
+; 1.203 ; rx_wait[2]        ; rx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.509      ;
+; 1.227 ; rx_state          ; rx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.533      ;
+; 1.227 ; rx_state          ; rx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.533      ;
+; 1.241 ; tx_index[0]       ; tx_index[1]       ; clk          ; clk         ; 0.000        ; 0.000      ; 1.547      ;
+; 1.241 ; tx_index[1]       ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 1.547      ;
+; 1.249 ; rx_wait[2]        ; rx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.555      ;
+; 1.263 ; tx_wait[0]        ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.569      ;
+; 1.342 ; tx_wait[1]        ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.648      ;
+; 1.353 ; rx_wait[0]        ; rx_state          ; clk          ; clk         ; 0.000        ; 0.000      ; 1.659      ;
+; 1.367 ; tx_wait[1]        ; tx_state.TX_NEXT  ; clk          ; clk         ; 0.000        ; 0.000      ; 1.673      ;
+; 1.370 ; tx_wait[1]        ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 1.676      ;
+; 1.462 ; rx_wait[1]        ; rx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.768      ;
+; 1.493 ; tx_state.TX_IDLE  ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 1.799      ;
+; 1.502 ; rx_wait[2]        ; rx_state          ; clk          ; clk         ; 0.000        ; 0.000      ; 1.808      ;
+; 1.504 ; tx_wait[2]        ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.810      ;
+; 1.508 ; tx_index[0]       ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 1.814      ;
+; 1.520 ; tx_wait[2]        ; tx_state.TX_NEXT  ; clk          ; clk         ; 0.000        ; 0.000      ; 1.826      ;
+; 1.520 ; tx_wait[2]        ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 1.826      ;
+; 1.551 ; rx_state          ; SLRD~reg0         ; clk          ; clk         ; 0.000        ; 0.000      ; 1.857      ;
+; 1.582 ; tx_state.TX_NEXT  ; tx_index[2]       ; clk          ; clk         ; 0.000        ; 0.000      ; 1.888      ;
+; 1.613 ; tx_pending        ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 1.919      ;
+; 1.661 ; tx_state.TX_IDLE  ; tx_index[2]       ; clk          ; clk         ; 0.000        ; 0.000      ; 1.967      ;
+; 1.681 ; tx_state.TX_NEXT  ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 1.987      ;
+; 1.725 ; tx_state.TX_WRITE ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 2.031      ;
+; 1.772 ; tx_index[2]       ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 2.078      ;
+; 1.808 ; tx_wait[0]        ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 2.114      ;
+; 1.813 ; tx_index[1]       ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 2.119      ;
+; 1.869 ; tx_state.TX_IDLE  ; tx_pending        ; clk          ; clk         ; 0.000        ; 0.000      ; 2.175      ;
+; 1.922 ; tx_index[0]       ; tx_index[2]       ; clk          ; clk         ; 0.000        ; 0.000      ; 2.228      ;
+; 1.951 ; tx_state.TX_NEXT  ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 2.257      ;
+; 1.956 ; tx_state.TX_NEXT  ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 2.262      ;
+; 2.016 ; tx_state.TX_SETUP ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 2.322      ;
+; 2.020 ; rx_wait[1]        ; rx_state          ; clk          ; clk         ; 0.000        ; 0.000      ; 2.326      ;
+; 2.082 ; tx_state.TX_IDLE  ; tx_index[0]       ; clk          ; clk         ; 0.000        ; 0.000      ; 2.388      ;
+; 2.089 ; tx_state.TX_IDLE  ; tx_index[1]       ; clk          ; clk         ; 0.000        ; 0.000      ; 2.395      ;
+; 2.143 ; tx_index[2]       ; tx_index[0]       ; clk          ; clk         ; 0.000        ; 0.000      ; 2.449      ;
+; 2.183 ; tx_index[1]       ; tx_index[0]       ; clk          ; clk         ; 0.000        ; 0.000      ; 2.489      ;
+; 2.204 ; tx_pending        ; tx_index[2]       ; clk          ; clk         ; 0.000        ; 0.000      ; 2.510      ;
+; 2.219 ; tx_index[1]       ; tx_index[2]       ; clk          ; clk         ; 0.000        ; 0.000      ; 2.525      ;
+; 2.574 ; tx_state.TX_IDLE  ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 2.880      ;
+; 2.627 ; tx_pending        ; tx_index[0]       ; clk          ; clk         ; 0.000        ; 0.000      ; 2.933      ;
+; 2.632 ; tx_pending        ; tx_index[1]       ; clk          ; clk         ; 0.000        ; 0.000      ; 2.938      ;
+; 2.688 ; tx_pending        ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 2.994      ;
+; 2.688 ; tx_pending        ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 2.994      ;
+; 2.688 ; tx_pending        ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 2.994      ;
+; 2.869 ; tx_wait[2]        ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.175      ;
+; 2.882 ; tx_wait[1]        ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 3.188      ;
+; 2.882 ; tx_wait[1]        ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 3.188      ;
+; 2.935 ; tx_pending        ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 3.241      ;
+; 3.044 ; tx_wait[2]        ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 3.350      ;
+; 3.044 ; tx_wait[2]        ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 3.350      ;
+; 3.085 ; tx_state.TX_WRITE ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.391      ;
+; 3.090 ; tx_state.TX_WRITE ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.396      ;
+; 3.125 ; tx_index[2]       ; tx_index[1]       ; clk          ; clk         ; 0.000        ; 0.000      ; 3.431      ;
+; 3.129 ; tx_state.TX_WRITE ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 3.435      ;
+; 3.129 ; tx_state.TX_WRITE ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 3.435      ;
+; 3.196 ; tx_state.TX_IDLE  ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 3.502      ;
+; 3.320 ; tx_index[0]       ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.626      ;
+; 3.320 ; tx_index[0]       ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.626      ;
+; 3.320 ; tx_index[0]       ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.626      ;
+; 3.326 ; tx_wait[0]        ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 3.632      ;
+; 3.326 ; tx_wait[0]        ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 3.632      ;
+; 3.582 ; tx_state.TX_IDLE  ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.888      ;
+; 3.584 ; tx_index[2]       ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.890      ;
+; 3.584 ; tx_index[2]       ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.890      ;
+; 3.584 ; tx_index[2]       ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.890      ;
+; 3.587 ; tx_state.TX_IDLE  ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.893      ;
+; 3.625 ; tx_index[1]       ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.931      ;
+; 3.625 ; tx_index[1]       ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.931      ;
+; 3.625 ; tx_index[1]       ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 3.931      ;
++-------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
+
+
++--------------------------------------------------------------------------------------------------------+
+; Slow Model Minimum Pulse Width: 'clk'                                                                  ;
++--------+--------------+----------------+------------------+-------+------------+-----------------------+
+; Slack  ; Actual Width ; Required Width ; Type             ; Clock ; Clock Edge ; Target                ;
++--------+--------------+----------------+------------------+-------+------------+-----------------------+
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; SLOE~reg0             ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; SLOE~reg0             ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; SLRD~reg0             ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; SLRD~reg0             ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; SLWR~reg0             ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; SLWR~reg0             ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; led[0]~reg0           ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; led[0]~reg0           ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; led[2]~reg0           ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; led[2]~reg0           ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; rx_state              ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; rx_state              ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; rx_wait[0]            ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; rx_wait[0]            ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; rx_wait[1]            ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; rx_wait[1]            ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; rx_wait[2]            ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; rx_wait[2]            ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; tx_index[0]           ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; tx_index[0]           ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; tx_index[1]           ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; tx_index[1]           ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; tx_index[2]           ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; tx_index[2]           ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; tx_pending            ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; tx_pending            ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_IDLE      ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_IDLE      ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_NEXT      ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_NEXT      ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_SETUP     ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_SETUP     ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_WRITE     ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_WRITE     ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; tx_wait[0]            ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; tx_wait[0]            ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; tx_wait[1]            ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; tx_wait[1]            ;
+; 8.758  ; 10.000       ; 1.242          ; High Pulse Width ; clk   ; Rise       ; tx_wait[2]            ;
+; 8.758  ; 10.000       ; 1.242          ; Low Pulse Width  ; clk   ; Rise       ; tx_wait[2]            ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; SLOE~reg0|clk         ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; SLOE~reg0|clk         ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; SLRD~reg0|clk         ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; SLRD~reg0|clk         ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; SLWR~reg0|clk         ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; SLWR~reg0|clk         ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; clk|combout           ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; clk|combout           ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; clk~clkctrl|inclk[0]  ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; clk~clkctrl|inclk[0]  ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; clk~clkctrl|outclk    ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; clk~clkctrl|outclk    ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; led[0]~reg0|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; led[0]~reg0|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; led[2]~reg0|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; led[2]~reg0|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; rx_state|clk          ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; rx_state|clk          ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; rx_wait[0]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; rx_wait[0]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; rx_wait[1]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; rx_wait[1]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; rx_wait[2]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; rx_wait[2]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_index[0]|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_index[0]|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_index[1]|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_index[1]|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_index[2]|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_index[2]|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_pending|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_pending|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_IDLE|clk  ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_IDLE|clk  ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_NEXT|clk  ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_NEXT|clk  ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_SETUP|clk ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_SETUP|clk ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_WRITE|clk ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_WRITE|clk ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_wait[0]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_wait[0]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_wait[1]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_wait[1]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_wait[2]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_wait[2]|clk        ;
+; 17.059 ; 20.000       ; 2.941          ; Port Rate        ; clk   ; Rise       ; clk                   ;
++--------+--------------+----------------+------------------+-------+------------+-----------------------+
+
+
++---------------------------------------------------------------------------+
+; Setup Times                                                               ;
++---------------+------------+-------+-------+------------+-----------------+
+; Data Port     ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++---------------+------------+-------+-------+------------+-----------------+
+; FIFODATA[*]   ; clk        ; 8.222 ; 8.222 ; Rise       ; clk             ;
+;  FIFODATA[0]  ; clk        ; 6.371 ; 6.371 ; Rise       ; clk             ;
+;  FIFODATA[1]  ; clk        ; 6.157 ; 6.157 ; Rise       ; clk             ;
+;  FIFODATA[2]  ; clk        ; 6.199 ; 6.199 ; Rise       ; clk             ;
+;  FIFODATA[3]  ; clk        ; 5.767 ; 5.767 ; Rise       ; clk             ;
+;  FIFODATA[4]  ; clk        ; 6.905 ; 6.905 ; Rise       ; clk             ;
+;  FIFODATA[5]  ; clk        ; 6.672 ; 6.672 ; Rise       ; clk             ;
+;  FIFODATA[6]  ; clk        ; 7.025 ; 7.025 ; Rise       ; clk             ;
+;  FIFODATA[7]  ; clk        ; 7.147 ; 7.147 ; Rise       ; clk             ;
+;  FIFODATA[8]  ; clk        ; 7.946 ; 7.946 ; Rise       ; clk             ;
+;  FIFODATA[9]  ; clk        ; 7.387 ; 7.387 ; Rise       ; clk             ;
+;  FIFODATA[10] ; clk        ; 8.222 ; 8.222 ; Rise       ; clk             ;
+;  FIFODATA[11] ; clk        ; 7.647 ; 7.647 ; Rise       ; clk             ;
+;  FIFODATA[12] ; clk        ; 7.120 ; 7.120 ; Rise       ; clk             ;
+;  FIFODATA[13] ; clk        ; 7.363 ; 7.363 ; Rise       ; clk             ;
+;  FIFODATA[14] ; clk        ; 7.547 ; 7.547 ; Rise       ; clk             ;
+;  FIFODATA[15] ; clk        ; 7.601 ; 7.601 ; Rise       ; clk             ;
+; FLAGA         ; clk        ; 5.757 ; 5.757 ; Rise       ; clk             ;
++---------------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------------+
+; Hold Times                                                                  ;
++---------------+------------+--------+--------+------------+-----------------+
+; Data Port     ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++---------------+------------+--------+--------+------------+-----------------+
+; FIFODATA[*]   ; clk        ; -4.437 ; -4.437 ; Rise       ; clk             ;
+;  FIFODATA[0]  ; clk        ; -5.041 ; -5.041 ; Rise       ; clk             ;
+;  FIFODATA[1]  ; clk        ; -4.827 ; -4.827 ; Rise       ; clk             ;
+;  FIFODATA[2]  ; clk        ; -4.869 ; -4.869 ; Rise       ; clk             ;
+;  FIFODATA[3]  ; clk        ; -4.437 ; -4.437 ; Rise       ; clk             ;
+;  FIFODATA[4]  ; clk        ; -5.610 ; -5.610 ; Rise       ; clk             ;
+;  FIFODATA[5]  ; clk        ; -5.377 ; -5.377 ; Rise       ; clk             ;
+;  FIFODATA[6]  ; clk        ; -5.730 ; -5.730 ; Rise       ; clk             ;
+;  FIFODATA[7]  ; clk        ; -5.852 ; -5.852 ; Rise       ; clk             ;
+;  FIFODATA[8]  ; clk        ; -6.651 ; -6.651 ; Rise       ; clk             ;
+;  FIFODATA[9]  ; clk        ; -6.092 ; -6.092 ; Rise       ; clk             ;
+;  FIFODATA[10] ; clk        ; -6.927 ; -6.927 ; Rise       ; clk             ;
+;  FIFODATA[11] ; clk        ; -6.352 ; -6.352 ; Rise       ; clk             ;
+;  FIFODATA[12] ; clk        ; -5.825 ; -5.825 ; Rise       ; clk             ;
+;  FIFODATA[13] ; clk        ; -6.068 ; -6.068 ; Rise       ; clk             ;
+;  FIFODATA[14] ; clk        ; -6.252 ; -6.252 ; Rise       ; clk             ;
+;  FIFODATA[15] ; clk        ; -6.306 ; -6.306 ; Rise       ; clk             ;
+; FLAGA         ; clk        ; -4.395 ; -4.395 ; Rise       ; clk             ;
++---------------+------------+--------+--------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Clock to Output Times                                                 ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; SLOE      ; clk        ; 7.215 ; 7.215 ; Rise       ; clk             ;
+; SLRD      ; clk        ; 6.850 ; 6.850 ; Rise       ; clk             ;
+; SLWR      ; clk        ; 8.031 ; 8.031 ; Rise       ; clk             ;
+; led[*]    ; clk        ; 9.728 ; 9.728 ; Rise       ; clk             ;
+;  led[0]   ; clk        ; 9.340 ; 9.340 ; Rise       ; clk             ;
+;  led[2]   ; clk        ; 9.728 ; 9.728 ; Rise       ; clk             ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Minimum Clock to Output Times                                         ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; SLOE      ; clk        ; 7.215 ; 7.215 ; Rise       ; clk             ;
+; SLRD      ; clk        ; 6.850 ; 6.850 ; Rise       ; clk             ;
+; SLWR      ; clk        ; 8.031 ; 8.031 ; Rise       ; clk             ;
+; led[*]    ; clk        ; 9.340 ; 9.340 ; Rise       ; clk             ;
+;  led[0]   ; clk        ; 9.340 ; 9.340 ; Rise       ; clk             ;
+;  led[2]   ; clk        ; 9.728 ; 9.728 ; Rise       ; clk             ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++---------------------------------+
+; Fast Model Setup Summary        ;
++-------+---------+---------------+
+; Clock ; Slack   ; End Point TNS ;
++-------+---------+---------------+
+; clk   ; 197.956 ; 0.000         ;
++-------+---------+---------------+
+
+
++-------------------------------+
+; Fast Model Hold Summary       ;
++-------+-------+---------------+
+; Clock ; Slack ; End Point TNS ;
++-------+-------+---------------+
+; clk   ; 0.215 ; 0.000         ;
++-------+-------+---------------+
+
+
+-------------------------------
+; Fast Model Recovery Summary ;
+-------------------------------
+No paths to report.
+
+
+------------------------------
+; Fast Model Removal Summary ;
+------------------------------
+No paths to report.
+
+
++----------------------------------------+
+; Fast Model Minimum Pulse Width Summary ;
++-------+-------+------------------------+
+; Clock ; Slack ; End Point TNS          ;
++-------+-------+------------------------+
+; clk   ; 9.000 ; 0.000                  ;
++-------+-------+------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------+
+; Fast Model Setup: 'clk'                                                                                               ;
++---------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
+; Slack   ; From Node         ; To Node           ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++---------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
+; 197.956 ; rx_wait[1]        ; led[0]~reg0       ; clk          ; clk         ; 200.000      ; 0.001      ; 2.077      ;
+; 197.956 ; rx_wait[1]        ; led[2]~reg0       ; clk          ; clk         ; 200.000      ; 0.001      ; 2.077      ;
+; 198.022 ; rx_state          ; led[0]~reg0       ; clk          ; clk         ; 200.000      ; 0.001      ; 2.011      ;
+; 198.022 ; rx_state          ; led[2]~reg0       ; clk          ; clk         ; 200.000      ; 0.001      ; 2.011      ;
+; 198.105 ; rx_wait[2]        ; led[0]~reg0       ; clk          ; clk         ; 200.000      ; 0.001      ; 1.928      ;
+; 198.105 ; rx_wait[2]        ; led[2]~reg0       ; clk          ; clk         ; 200.000      ; 0.001      ; 1.928      ;
+; 198.148 ; rx_wait[0]        ; led[0]~reg0       ; clk          ; clk         ; 200.000      ; 0.001      ; 1.885      ;
+; 198.148 ; rx_wait[0]        ; led[2]~reg0       ; clk          ; clk         ; 200.000      ; 0.001      ; 1.885      ;
+; 198.389 ; rx_wait[1]        ; tx_pending        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.644      ;
+; 198.455 ; rx_state          ; tx_pending        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.578      ;
+; 198.538 ; rx_wait[2]        ; tx_pending        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.495      ;
+; 198.581 ; rx_wait[0]        ; tx_pending        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.452      ;
+; 198.618 ; tx_pending        ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; -0.001     ; 1.413      ;
+; 198.618 ; tx_pending        ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; -0.001     ; 1.413      ;
+; 198.649 ; tx_state.TX_SETUP ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 1.383      ;
+; 198.649 ; tx_state.TX_SETUP ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; 0.000      ; 1.383      ;
+; 198.676 ; tx_state.TX_IDLE  ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.357      ;
+; 198.676 ; tx_state.TX_IDLE  ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.357      ;
+; 198.676 ; tx_state.TX_IDLE  ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.357      ;
+; 198.687 ; tx_index[1]       ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.346      ;
+; 198.687 ; tx_index[1]       ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.346      ;
+; 198.687 ; tx_index[1]       ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.346      ;
+; 198.693 ; tx_state.TX_NEXT  ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.339      ;
+; 198.693 ; tx_state.TX_NEXT  ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.339      ;
+; 198.693 ; tx_state.TX_NEXT  ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.339      ;
+; 198.695 ; tx_index[2]       ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.338      ;
+; 198.695 ; tx_index[2]       ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.338      ;
+; 198.695 ; tx_index[2]       ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.338      ;
+; 198.749 ; tx_state.TX_IDLE  ; tx_state.TX_WRITE ; clk          ; clk         ; 200.000      ; 0.001      ; 1.284      ;
+; 198.761 ; tx_wait[0]        ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; -0.001     ; 1.270      ;
+; 198.761 ; tx_wait[0]        ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; -0.001     ; 1.270      ;
+; 198.768 ; tx_state.TX_WRITE ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; -0.001     ; 1.263      ;
+; 198.768 ; tx_state.TX_WRITE ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; -0.001     ; 1.263      ;
+; 198.770 ; tx_index[0]       ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.263      ;
+; 198.770 ; tx_index[0]       ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.263      ;
+; 198.770 ; tx_index[0]       ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.001      ; 1.263      ;
+; 198.771 ; tx_state.TX_SETUP ; tx_state.TX_WRITE ; clk          ; clk         ; 200.000      ; 0.001      ; 1.262      ;
+; 198.808 ; tx_state.TX_IDLE  ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 1.224      ;
+; 198.808 ; tx_state.TX_IDLE  ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; 0.000      ; 1.224      ;
+; 198.818 ; tx_wait[0]        ; tx_state.TX_WRITE ; clk          ; clk         ; 200.000      ; 0.000      ; 1.214      ;
+; 198.848 ; tx_wait[2]        ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; -0.001     ; 1.183      ;
+; 198.848 ; tx_wait[2]        ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; -0.001     ; 1.183      ;
+; 198.899 ; tx_wait[1]        ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; -0.001     ; 1.132      ;
+; 198.899 ; tx_wait[1]        ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; -0.001     ; 1.132      ;
+; 198.900 ; tx_wait[0]        ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.132      ;
+; 198.906 ; tx_index[1]       ; tx_index[1]       ; clk          ; clk         ; 200.000      ; 0.000      ; 1.126      ;
+; 198.906 ; tx_wait[0]        ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.126      ;
+; 198.907 ; tx_state.TX_WRITE ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.125      ;
+; 198.913 ; tx_state.TX_WRITE ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.119      ;
+; 198.914 ; tx_index[2]       ; tx_index[1]       ; clk          ; clk         ; 200.000      ; 0.000      ; 1.118      ;
+; 198.915 ; tx_wait[2]        ; tx_state.TX_WRITE ; clk          ; clk         ; 200.000      ; 0.000      ; 1.117      ;
+; 198.933 ; tx_state.TX_NEXT  ; tx_index[1]       ; clk          ; clk         ; 200.000      ; -0.001     ; 1.098      ;
+; 198.948 ; tx_pending        ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.084      ;
+; 198.948 ; tx_pending        ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.084      ;
+; 198.948 ; tx_pending        ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.084      ;
+; 198.953 ; tx_wait[1]        ; tx_state.TX_WRITE ; clk          ; clk         ; 200.000      ; 0.000      ; 1.079      ;
+; 198.987 ; tx_wait[2]        ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.045      ;
+; 198.987 ; tx_index[0]       ; tx_index[1]       ; clk          ; clk         ; 200.000      ; 0.000      ; 1.045      ;
+; 198.993 ; tx_wait[2]        ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 1.039      ;
+; 199.021 ; tx_pending        ; tx_state.TX_WRITE ; clk          ; clk         ; 200.000      ; 0.000      ; 1.011      ;
+; 199.026 ; tx_index[1]       ; tx_index[2]       ; clk          ; clk         ; 200.000      ; 0.000      ; 1.006      ;
+; 199.034 ; tx_index[2]       ; tx_index[2]       ; clk          ; clk         ; 200.000      ; 0.000      ; 0.998      ;
+; 199.038 ; tx_wait[1]        ; tx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 0.994      ;
+; 199.044 ; tx_wait[1]        ; tx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 0.988      ;
+; 199.051 ; tx_pending        ; tx_index[0]       ; clk          ; clk         ; 200.000      ; -0.001     ; 0.980      ;
+; 199.053 ; tx_state.TX_NEXT  ; tx_index[2]       ; clk          ; clk         ; 200.000      ; -0.001     ; 0.978      ;
+; 199.087 ; tx_pending        ; tx_index[1]       ; clk          ; clk         ; 200.000      ; -0.001     ; 0.944      ;
+; 199.092 ; tx_state.TX_NEXT  ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; -0.001     ; 0.939      ;
+; 199.092 ; tx_state.TX_NEXT  ; tx_state.TX_IDLE  ; clk          ; clk         ; 200.000      ; -0.001     ; 0.939      ;
+; 199.107 ; tx_index[0]       ; tx_index[2]       ; clk          ; clk         ; 200.000      ; 0.000      ; 0.925      ;
+; 199.127 ; tx_index[1]       ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 0.905      ;
+; 199.135 ; tx_index[2]       ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 0.897      ;
+; 199.163 ; rx_state          ; rx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 0.869      ;
+; 199.163 ; rx_state          ; rx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 0.869      ;
+; 199.163 ; rx_state          ; rx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 0.869      ;
+; 199.202 ; tx_index[1]       ; tx_index[0]       ; clk          ; clk         ; 200.000      ; 0.000      ; 0.830      ;
+; 199.207 ; tx_pending        ; tx_index[2]       ; clk          ; clk         ; 200.000      ; -0.001     ; 0.824      ;
+; 199.208 ; tx_index[0]       ; tx_state.TX_SETUP ; clk          ; clk         ; 200.000      ; 0.000      ; 0.824      ;
+; 199.210 ; tx_index[2]       ; tx_index[0]       ; clk          ; clk         ; 200.000      ; 0.000      ; 0.822      ;
+; 199.229 ; tx_state.TX_NEXT  ; tx_index[0]       ; clk          ; clk         ; 200.000      ; -0.001     ; 0.802      ;
+; 199.241 ; tx_state.TX_IDLE  ; tx_index[0]       ; clk          ; clk         ; 200.000      ; 0.000      ; 0.791      ;
+; 199.248 ; tx_state.TX_IDLE  ; tx_index[1]       ; clk          ; clk         ; 200.000      ; 0.000      ; 0.784      ;
+; 199.266 ; rx_wait[1]        ; rx_state          ; clk          ; clk         ; 200.000      ; 0.000      ; 0.766      ;
+; 199.283 ; tx_index[0]       ; tx_index[0]       ; clk          ; clk         ; 200.000      ; 0.000      ; 0.749      ;
+; 199.326 ; tx_wait[0]        ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 0.706      ;
+; 199.327 ; rx_state          ; rx_state          ; clk          ; clk         ; 200.000      ; 0.000      ; 0.705      ;
+; 199.329 ; tx_state.TX_IDLE  ; tx_pending        ; clk          ; clk         ; 200.000      ; 0.001      ; 0.704      ;
+; 199.333 ; tx_state.TX_WRITE ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 0.699      ;
+; 199.345 ; rx_state          ; SLRD~reg0         ; clk          ; clk         ; 200.000      ; 0.000      ; 0.687      ;
+; 199.368 ; tx_state.TX_IDLE  ; tx_index[2]       ; clk          ; clk         ; 200.000      ; 0.000      ; 0.664      ;
+; 199.406 ; tx_wait[2]        ; tx_state.TX_NEXT  ; clk          ; clk         ; 200.000      ; 0.000      ; 0.626      ;
+; 199.413 ; tx_wait[2]        ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 0.619      ;
+; 199.416 ; rx_wait[2]        ; rx_state          ; clk          ; clk         ; 200.000      ; 0.000      ; 0.616      ;
+; 199.427 ; rx_wait[1]        ; rx_wait[2]        ; clk          ; clk         ; 200.000      ; 0.000      ; 0.605      ;
+; 199.446 ; tx_wait[1]        ; tx_state.TX_NEXT  ; clk          ; clk         ; 200.000      ; 0.000      ; 0.586      ;
+; 199.453 ; rx_wait[0]        ; rx_state          ; clk          ; clk         ; 200.000      ; 0.000      ; 0.579      ;
+; 199.464 ; tx_wait[1]        ; tx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 0.568      ;
+; 199.493 ; tx_wait[0]        ; tx_state.TX_NEXT  ; clk          ; clk         ; 200.000      ; 0.000      ; 0.539      ;
+; 199.494 ; rx_wait[2]        ; rx_wait[1]        ; clk          ; clk         ; 200.000      ; 0.000      ; 0.538      ;
+; 199.495 ; rx_wait[2]        ; rx_wait[0]        ; clk          ; clk         ; 200.000      ; 0.000      ; 0.537      ;
++---------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
+
+
++---------------------------------------------------------------------------------------------------------------------+
+; Fast Model Hold: 'clk'                                                                                              ;
++-------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node         ; To Node           ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
+; 0.215 ; rx_wait[2]        ; rx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; rx_wait[1]        ; rx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; rx_wait[0]        ; rx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; rx_state          ; rx_state          ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; tx_wait[0]        ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; tx_wait[2]        ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; tx_state.TX_NEXT  ; tx_state.TX_NEXT  ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; tx_index[1]       ; tx_index[1]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; tx_index[2]       ; tx_index[2]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; tx_index[0]       ; tx_index[0]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; tx_pending        ; tx_pending        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; tx_wait[1]        ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; tx_state.TX_WRITE ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 0.367      ;
+; 0.257 ; tx_state.TX_WRITE ; SLWR~reg0         ; clk          ; clk         ; 0.000        ; 0.000      ; 0.409      ;
+; 0.259 ; tx_wait[1]        ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.411      ;
+; 0.259 ; tx_wait[0]        ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.411      ;
+; 0.266 ; rx_wait[0]        ; rx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.418      ;
+; 0.266 ; rx_wait[0]        ; rx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.418      ;
+; 0.268 ; rx_state          ; rx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.420      ;
+; 0.270 ; rx_state          ; SLOE~reg0         ; clk          ; clk         ; 0.000        ; 0.000      ; 0.422      ;
+; 0.299 ; tx_index[0]       ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 0.451      ;
+; 0.350 ; tx_state.TX_NEXT  ; tx_index[1]       ; clk          ; clk         ; 0.000        ; -0.001     ; 0.501      ;
+; 0.355 ; tx_state.TX_NEXT  ; tx_index[0]       ; clk          ; clk         ; 0.000        ; -0.001     ; 0.506      ;
+; 0.369 ; tx_state.TX_NEXT  ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.521      ;
+; 0.371 ; tx_state.TX_NEXT  ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 0.523      ;
+; 0.374 ; tx_index[2]       ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 0.526      ;
+; 0.376 ; tx_state.TX_NEXT  ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; -0.001     ; 0.527      ;
+; 0.380 ; rx_wait[1]        ; rx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.532      ;
+; 0.382 ; tx_state.TX_WRITE ; tx_state.TX_NEXT  ; clk          ; clk         ; 0.000        ; 0.000      ; 0.534      ;
+; 0.382 ; tx_index[1]       ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 0.534      ;
+; 0.383 ; tx_index[0]       ; tx_index[1]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.535      ;
+; 0.385 ; rx_wait[2]        ; rx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.537      ;
+; 0.386 ; rx_wait[2]        ; rx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.538      ;
+; 0.387 ; tx_wait[0]        ; tx_state.TX_NEXT  ; clk          ; clk         ; 0.000        ; 0.000      ; 0.539      ;
+; 0.392 ; rx_state          ; rx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.544      ;
+; 0.392 ; rx_state          ; rx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.544      ;
+; 0.393 ; tx_wait[0]        ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.545      ;
+; 0.416 ; tx_wait[1]        ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.568      ;
+; 0.427 ; rx_wait[0]        ; rx_state          ; clk          ; clk         ; 0.000        ; 0.000      ; 0.579      ;
+; 0.433 ; tx_wait[1]        ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 0.585      ;
+; 0.434 ; tx_wait[1]        ; tx_state.TX_NEXT  ; clk          ; clk         ; 0.000        ; 0.000      ; 0.586      ;
+; 0.451 ; tx_state.TX_IDLE  ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 0.603      ;
+; 0.453 ; rx_wait[1]        ; rx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.605      ;
+; 0.463 ; tx_index[0]       ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 0.615      ;
+; 0.464 ; rx_wait[2]        ; rx_state          ; clk          ; clk         ; 0.000        ; 0.000      ; 0.616      ;
+; 0.467 ; tx_wait[2]        ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.619      ;
+; 0.471 ; tx_wait[2]        ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 0.623      ;
+; 0.474 ; tx_wait[2]        ; tx_state.TX_NEXT  ; clk          ; clk         ; 0.000        ; 0.000      ; 0.626      ;
+; 0.482 ; tx_state.TX_NEXT  ; tx_index[2]       ; clk          ; clk         ; 0.000        ; -0.001     ; 0.633      ;
+; 0.495 ; tx_pending        ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; -0.001     ; 0.646      ;
+; 0.512 ; tx_state.TX_IDLE  ; tx_index[2]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.664      ;
+; 0.535 ; rx_state          ; SLRD~reg0         ; clk          ; clk         ; 0.000        ; 0.000      ; 0.687      ;
+; 0.538 ; tx_index[2]       ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 0.690      ;
+; 0.540 ; tx_state.TX_NEXT  ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; -0.001     ; 0.691      ;
+; 0.546 ; tx_index[1]       ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; 0.000      ; 0.698      ;
+; 0.547 ; tx_state.TX_WRITE ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.699      ;
+; 0.551 ; tx_state.TX_IDLE  ; tx_pending        ; clk          ; clk         ; 0.000        ; 0.001      ; 0.704      ;
+; 0.568 ; tx_wait[0]        ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 0.720      ;
+; 0.582 ; tx_index[0]       ; tx_index[2]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.734      ;
+; 0.595 ; tx_state.TX_NEXT  ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.747      ;
+; 0.601 ; tx_state.TX_NEXT  ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 0.753      ;
+; 0.614 ; rx_wait[1]        ; rx_state          ; clk          ; clk         ; 0.000        ; 0.000      ; 0.766      ;
+; 0.615 ; tx_state.TX_SETUP ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.001      ; 0.768      ;
+; 0.632 ; tx_state.TX_IDLE  ; tx_index[1]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.784      ;
+; 0.639 ; tx_state.TX_IDLE  ; tx_index[0]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.791      ;
+; 0.656 ; tx_index[1]       ; tx_index[2]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.808      ;
+; 0.670 ; tx_index[2]       ; tx_index[0]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.822      ;
+; 0.673 ; tx_pending        ; tx_index[2]       ; clk          ; clk         ; 0.000        ; -0.001     ; 0.824      ;
+; 0.678 ; tx_index[1]       ; tx_index[0]       ; clk          ; clk         ; 0.000        ; 0.000      ; 0.830      ;
+; 0.766 ; tx_state.TX_IDLE  ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.001      ; 0.919      ;
+; 0.793 ; tx_pending        ; tx_index[1]       ; clk          ; clk         ; 0.000        ; -0.001     ; 0.944      ;
+; 0.829 ; tx_pending        ; tx_index[0]       ; clk          ; clk         ; 0.000        ; -0.001     ; 0.980      ;
+; 0.859 ; tx_pending        ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.000      ; 1.011      ;
+; 0.893 ; tx_wait[2]        ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.045      ;
+; 0.932 ; tx_pending        ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.084      ;
+; 0.932 ; tx_pending        ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.084      ;
+; 0.932 ; tx_pending        ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.084      ;
+; 0.966 ; tx_index[2]       ; tx_index[1]       ; clk          ; clk         ; 0.000        ; 0.000      ; 1.118      ;
+; 0.967 ; tx_state.TX_WRITE ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.119      ;
+; 0.973 ; tx_state.TX_WRITE ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.000      ; 1.125      ;
+; 0.981 ; tx_wait[1]        ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; -0.001     ; 1.132      ;
+; 0.981 ; tx_wait[1]        ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; -0.001     ; 1.132      ;
+; 1.032 ; tx_wait[2]        ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; -0.001     ; 1.183      ;
+; 1.032 ; tx_wait[2]        ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; -0.001     ; 1.183      ;
+; 1.049 ; tx_state.TX_WRITE ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; -0.001     ; 1.200      ;
+; 1.049 ; tx_state.TX_WRITE ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; -0.001     ; 1.200      ;
+; 1.056 ; tx_state.TX_IDLE  ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.001      ; 1.209      ;
+; 1.062 ; tx_state.TX_IDLE  ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.001      ; 1.215      ;
+; 1.072 ; tx_state.TX_IDLE  ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; 0.000      ; 1.224      ;
+; 1.110 ; tx_index[0]       ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.001      ; 1.263      ;
+; 1.110 ; tx_index[0]       ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.001      ; 1.263      ;
+; 1.110 ; tx_index[0]       ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.001      ; 1.263      ;
+; 1.119 ; tx_wait[0]        ; tx_state.TX_SETUP ; clk          ; clk         ; 0.000        ; -0.001     ; 1.270      ;
+; 1.119 ; tx_wait[0]        ; tx_state.TX_IDLE  ; clk          ; clk         ; 0.000        ; -0.001     ; 1.270      ;
+; 1.131 ; tx_state.TX_IDLE  ; tx_state.TX_WRITE ; clk          ; clk         ; 0.000        ; 0.001      ; 1.284      ;
+; 1.185 ; tx_index[2]       ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.001      ; 1.338      ;
+; 1.185 ; tx_index[2]       ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.001      ; 1.338      ;
+; 1.185 ; tx_index[2]       ; tx_wait[1]        ; clk          ; clk         ; 0.000        ; 0.001      ; 1.338      ;
+; 1.193 ; tx_index[1]       ; tx_wait[0]        ; clk          ; clk         ; 0.000        ; 0.001      ; 1.346      ;
+; 1.193 ; tx_index[1]       ; tx_wait[2]        ; clk          ; clk         ; 0.000        ; 0.001      ; 1.346      ;
++-------+-------------------+-------------------+--------------+-------------+--------------+------------+------------+
+
+
++--------------------------------------------------------------------------------------------------------+
+; Fast Model Minimum Pulse Width: 'clk'                                                                  ;
++--------+--------------+----------------+------------------+-------+------------+-----------------------+
+; Slack  ; Actual Width ; Required Width ; Type             ; Clock ; Clock Edge ; Target                ;
++--------+--------------+----------------+------------------+-------+------------+-----------------------+
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; SLOE~reg0             ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; SLOE~reg0             ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; SLRD~reg0             ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; SLRD~reg0             ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; SLWR~reg0             ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; SLWR~reg0             ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; led[0]~reg0           ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; led[0]~reg0           ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; led[2]~reg0           ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; led[2]~reg0           ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; rx_state              ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; rx_state              ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; rx_wait[0]            ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; rx_wait[0]            ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; rx_wait[1]            ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; rx_wait[1]            ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; rx_wait[2]            ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; rx_wait[2]            ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; tx_index[0]           ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_index[0]           ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; tx_index[1]           ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_index[1]           ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; tx_index[2]           ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_index[2]           ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; tx_pending            ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_pending            ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_IDLE      ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_IDLE      ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_NEXT      ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_NEXT      ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_SETUP     ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_SETUP     ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_WRITE     ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_WRITE     ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; tx_wait[0]            ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_wait[0]            ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; tx_wait[1]            ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_wait[1]            ;
+; 9.000  ; 10.000       ; 1.000          ; High Pulse Width ; clk   ; Rise       ; tx_wait[2]            ;
+; 9.000  ; 10.000       ; 1.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_wait[2]            ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; SLOE~reg0|clk         ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; SLOE~reg0|clk         ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; SLRD~reg0|clk         ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; SLRD~reg0|clk         ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; SLWR~reg0|clk         ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; SLWR~reg0|clk         ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; clk|combout           ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; clk|combout           ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; clk~clkctrl|inclk[0]  ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; clk~clkctrl|inclk[0]  ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; clk~clkctrl|outclk    ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; clk~clkctrl|outclk    ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; led[0]~reg0|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; led[0]~reg0|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; led[2]~reg0|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; led[2]~reg0|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; rx_state|clk          ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; rx_state|clk          ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; rx_wait[0]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; rx_wait[0]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; rx_wait[1]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; rx_wait[1]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; rx_wait[2]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; rx_wait[2]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_index[0]|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_index[0]|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_index[1]|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_index[1]|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_index[2]|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_index[2]|clk       ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_pending|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_pending|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_IDLE|clk  ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_IDLE|clk  ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_NEXT|clk  ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_NEXT|clk  ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_SETUP|clk ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_SETUP|clk ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_state.TX_WRITE|clk ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_state.TX_WRITE|clk ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_wait[0]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_wait[0]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_wait[1]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_wait[1]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; High Pulse Width ; clk   ; Rise       ; tx_wait[2]|clk        ;
+; 10.000 ; 10.000       ; 0.000          ; Low Pulse Width  ; clk   ; Rise       ; tx_wait[2]|clk        ;
+; 17.620 ; 20.000       ; 2.380          ; Port Rate        ; clk   ; Rise       ; clk                   ;
++--------+--------------+----------------+------------------+-------+------------+-----------------------+
+
+
++---------------------------------------------------------------------------+
+; Setup Times                                                               ;
++---------------+------------+-------+-------+------------+-----------------+
+; Data Port     ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++---------------+------------+-------+-------+------------+-----------------+
+; FIFODATA[*]   ; clk        ; 3.257 ; 3.257 ; Rise       ; clk             ;
+;  FIFODATA[0]  ; clk        ; 2.770 ; 2.770 ; Rise       ; clk             ;
+;  FIFODATA[1]  ; clk        ; 2.699 ; 2.699 ; Rise       ; clk             ;
+;  FIFODATA[2]  ; clk        ; 2.678 ; 2.678 ; Rise       ; clk             ;
+;  FIFODATA[3]  ; clk        ; 2.543 ; 2.543 ; Rise       ; clk             ;
+;  FIFODATA[4]  ; clk        ; 2.884 ; 2.884 ; Rise       ; clk             ;
+;  FIFODATA[5]  ; clk        ; 2.801 ; 2.801 ; Rise       ; clk             ;
+;  FIFODATA[6]  ; clk        ; 2.940 ; 2.940 ; Rise       ; clk             ;
+;  FIFODATA[7]  ; clk        ; 2.951 ; 2.951 ; Rise       ; clk             ;
+;  FIFODATA[8]  ; clk        ; 3.179 ; 3.179 ; Rise       ; clk             ;
+;  FIFODATA[9]  ; clk        ; 3.034 ; 3.034 ; Rise       ; clk             ;
+;  FIFODATA[10] ; clk        ; 3.257 ; 3.257 ; Rise       ; clk             ;
+;  FIFODATA[11] ; clk        ; 3.105 ; 3.105 ; Rise       ; clk             ;
+;  FIFODATA[12] ; clk        ; 2.957 ; 2.957 ; Rise       ; clk             ;
+;  FIFODATA[13] ; clk        ; 3.044 ; 3.044 ; Rise       ; clk             ;
+;  FIFODATA[14] ; clk        ; 3.099 ; 3.099 ; Rise       ; clk             ;
+;  FIFODATA[15] ; clk        ; 3.086 ; 3.086 ; Rise       ; clk             ;
+; FLAGA         ; clk        ; 2.525 ; 2.525 ; Rise       ; clk             ;
++---------------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------------+
+; Hold Times                                                                  ;
++---------------+------------+--------+--------+------------+-----------------+
+; Data Port     ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++---------------+------------+--------+--------+------------+-----------------+
+; FIFODATA[*]   ; clk        ; -1.992 ; -1.992 ; Rise       ; clk             ;
+;  FIFODATA[0]  ; clk        ; -2.219 ; -2.219 ; Rise       ; clk             ;
+;  FIFODATA[1]  ; clk        ; -2.148 ; -2.148 ; Rise       ; clk             ;
+;  FIFODATA[2]  ; clk        ; -2.127 ; -2.127 ; Rise       ; clk             ;
+;  FIFODATA[3]  ; clk        ; -1.992 ; -1.992 ; Rise       ; clk             ;
+;  FIFODATA[4]  ; clk        ; -2.331 ; -2.331 ; Rise       ; clk             ;
+;  FIFODATA[5]  ; clk        ; -2.248 ; -2.248 ; Rise       ; clk             ;
+;  FIFODATA[6]  ; clk        ; -2.387 ; -2.387 ; Rise       ; clk             ;
+;  FIFODATA[7]  ; clk        ; -2.398 ; -2.398 ; Rise       ; clk             ;
+;  FIFODATA[8]  ; clk        ; -2.626 ; -2.626 ; Rise       ; clk             ;
+;  FIFODATA[9]  ; clk        ; -2.481 ; -2.481 ; Rise       ; clk             ;
+;  FIFODATA[10] ; clk        ; -2.704 ; -2.704 ; Rise       ; clk             ;
+;  FIFODATA[11] ; clk        ; -2.552 ; -2.552 ; Rise       ; clk             ;
+;  FIFODATA[12] ; clk        ; -2.404 ; -2.404 ; Rise       ; clk             ;
+;  FIFODATA[13] ; clk        ; -2.491 ; -2.491 ; Rise       ; clk             ;
+;  FIFODATA[14] ; clk        ; -2.546 ; -2.546 ; Rise       ; clk             ;
+;  FIFODATA[15] ; clk        ; -2.533 ; -2.533 ; Rise       ; clk             ;
+; FLAGA         ; clk        ; -1.957 ; -1.957 ; Rise       ; clk             ;
++---------------+------------+--------+--------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Clock to Output Times                                                 ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; SLOE      ; clk        ; 3.435 ; 3.435 ; Rise       ; clk             ;
+; SLRD      ; clk        ; 3.282 ; 3.282 ; Rise       ; clk             ;
+; SLWR      ; clk        ; 3.670 ; 3.670 ; Rise       ; clk             ;
+; led[*]    ; clk        ; 4.209 ; 4.209 ; Rise       ; clk             ;
+;  led[0]   ; clk        ; 4.015 ; 4.015 ; Rise       ; clk             ;
+;  led[2]   ; clk        ; 4.209 ; 4.209 ; Rise       ; clk             ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Minimum Clock to Output Times                                         ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; SLOE      ; clk        ; 3.435 ; 3.435 ; Rise       ; clk             ;
+; SLRD      ; clk        ; 3.282 ; 3.282 ; Rise       ; clk             ;
+; SLWR      ; clk        ; 3.670 ; 3.670 ; Rise       ; clk             ;
+; led[*]    ; clk        ; 4.015 ; 4.015 ; Rise       ; clk             ;
+;  led[0]   ; clk        ; 4.015 ; 4.015 ; Rise       ; clk             ;
+;  led[2]   ; clk        ; 4.209 ; 4.209 ; Rise       ; clk             ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-------------------------------------------------------------------------------+
+; Multicorner Timing Analysis Summary                                           ;
++------------------+---------+-------+----------+---------+---------------------+
+; Clock            ; Setup   ; Hold  ; Recovery ; Removal ; Minimum Pulse Width ;
++------------------+---------+-------+----------+---------+---------------------+
+; Worst-case Slack ; 193.954 ; 0.215 ; N/A      ; N/A     ; 8.758               ;
+;  clk             ; 193.954 ; 0.215 ; N/A      ; N/A     ; 8.758               ;
+; Design-wide TNS  ; 0.0     ; 0.0   ; 0.0      ; 0.0     ; 0.0                 ;
+;  clk             ; 0.000   ; 0.000 ; N/A      ; N/A     ; 0.000               ;
++------------------+---------+-------+----------+---------+---------------------+
+
+
++---------------------------------------------------------------------------+
+; Setup Times                                                               ;
++---------------+------------+-------+-------+------------+-----------------+
+; Data Port     ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++---------------+------------+-------+-------+------------+-----------------+
+; FIFODATA[*]   ; clk        ; 8.222 ; 8.222 ; Rise       ; clk             ;
+;  FIFODATA[0]  ; clk        ; 6.371 ; 6.371 ; Rise       ; clk             ;
+;  FIFODATA[1]  ; clk        ; 6.157 ; 6.157 ; Rise       ; clk             ;
+;  FIFODATA[2]  ; clk        ; 6.199 ; 6.199 ; Rise       ; clk             ;
+;  FIFODATA[3]  ; clk        ; 5.767 ; 5.767 ; Rise       ; clk             ;
+;  FIFODATA[4]  ; clk        ; 6.905 ; 6.905 ; Rise       ; clk             ;
+;  FIFODATA[5]  ; clk        ; 6.672 ; 6.672 ; Rise       ; clk             ;
+;  FIFODATA[6]  ; clk        ; 7.025 ; 7.025 ; Rise       ; clk             ;
+;  FIFODATA[7]  ; clk        ; 7.147 ; 7.147 ; Rise       ; clk             ;
+;  FIFODATA[8]  ; clk        ; 7.946 ; 7.946 ; Rise       ; clk             ;
+;  FIFODATA[9]  ; clk        ; 7.387 ; 7.387 ; Rise       ; clk             ;
+;  FIFODATA[10] ; clk        ; 8.222 ; 8.222 ; Rise       ; clk             ;
+;  FIFODATA[11] ; clk        ; 7.647 ; 7.647 ; Rise       ; clk             ;
+;  FIFODATA[12] ; clk        ; 7.120 ; 7.120 ; Rise       ; clk             ;
+;  FIFODATA[13] ; clk        ; 7.363 ; 7.363 ; Rise       ; clk             ;
+;  FIFODATA[14] ; clk        ; 7.547 ; 7.547 ; Rise       ; clk             ;
+;  FIFODATA[15] ; clk        ; 7.601 ; 7.601 ; Rise       ; clk             ;
+; FLAGA         ; clk        ; 5.757 ; 5.757 ; Rise       ; clk             ;
++---------------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------------+
+; Hold Times                                                                  ;
++---------------+------------+--------+--------+------------+-----------------+
+; Data Port     ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++---------------+------------+--------+--------+------------+-----------------+
+; FIFODATA[*]   ; clk        ; -1.992 ; -1.992 ; Rise       ; clk             ;
+;  FIFODATA[0]  ; clk        ; -2.219 ; -2.219 ; Rise       ; clk             ;
+;  FIFODATA[1]  ; clk        ; -2.148 ; -2.148 ; Rise       ; clk             ;
+;  FIFODATA[2]  ; clk        ; -2.127 ; -2.127 ; Rise       ; clk             ;
+;  FIFODATA[3]  ; clk        ; -1.992 ; -1.992 ; Rise       ; clk             ;
+;  FIFODATA[4]  ; clk        ; -2.331 ; -2.331 ; Rise       ; clk             ;
+;  FIFODATA[5]  ; clk        ; -2.248 ; -2.248 ; Rise       ; clk             ;
+;  FIFODATA[6]  ; clk        ; -2.387 ; -2.387 ; Rise       ; clk             ;
+;  FIFODATA[7]  ; clk        ; -2.398 ; -2.398 ; Rise       ; clk             ;
+;  FIFODATA[8]  ; clk        ; -2.626 ; -2.626 ; Rise       ; clk             ;
+;  FIFODATA[9]  ; clk        ; -2.481 ; -2.481 ; Rise       ; clk             ;
+;  FIFODATA[10] ; clk        ; -2.704 ; -2.704 ; Rise       ; clk             ;
+;  FIFODATA[11] ; clk        ; -2.552 ; -2.552 ; Rise       ; clk             ;
+;  FIFODATA[12] ; clk        ; -2.404 ; -2.404 ; Rise       ; clk             ;
+;  FIFODATA[13] ; clk        ; -2.491 ; -2.491 ; Rise       ; clk             ;
+;  FIFODATA[14] ; clk        ; -2.546 ; -2.546 ; Rise       ; clk             ;
+;  FIFODATA[15] ; clk        ; -2.533 ; -2.533 ; Rise       ; clk             ;
+; FLAGA         ; clk        ; -1.957 ; -1.957 ; Rise       ; clk             ;
++---------------+------------+--------+--------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Clock to Output Times                                                 ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; SLOE      ; clk        ; 7.215 ; 7.215 ; Rise       ; clk             ;
+; SLRD      ; clk        ; 6.850 ; 6.850 ; Rise       ; clk             ;
+; SLWR      ; clk        ; 8.031 ; 8.031 ; Rise       ; clk             ;
+; led[*]    ; clk        ; 9.728 ; 9.728 ; Rise       ; clk             ;
+;  led[0]   ; clk        ; 9.340 ; 9.340 ; Rise       ; clk             ;
+;  led[2]   ; clk        ; 9.728 ; 9.728 ; Rise       ; clk             ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Minimum Clock to Output Times                                         ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; SLOE      ; clk        ; 3.435 ; 3.435 ; Rise       ; clk             ;
+; SLRD      ; clk        ; 3.282 ; 3.282 ; Rise       ; clk             ;
+; SLWR      ; clk        ; 3.670 ; 3.670 ; Rise       ; clk             ;
+; led[*]    ; clk        ; 4.015 ; 4.015 ; Rise       ; clk             ;
+;  led[0]   ; clk        ; 4.015 ; 4.015 ; Rise       ; clk             ;
+;  led[2]   ; clk        ; 4.209 ; 4.209 ; Rise       ; clk             ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-------------------------------------------------------------------+
+; Setup Transfers                                                   ;
++------------+----------+----------+----------+----------+----------+
+; From Clock ; To Clock ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
++------------+----------+----------+----------+----------+----------+
+; clk        ; clk      ; 157      ; 0        ; 0        ; 0        ;
++------------+----------+----------+----------+----------+----------+
+Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
+
+
++-------------------------------------------------------------------+
+; Hold Transfers                                                    ;
++------------+----------+----------+----------+----------+----------+
+; From Clock ; To Clock ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
++------------+----------+----------+----------+----------+----------+
+; clk        ; clk      ; 157      ; 0        ; 0        ; 0        ;
++------------+----------+----------+----------+----------+----------+
+Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
+
+
+---------------
+; Report TCCS ;
+---------------
+No dedicated SERDES Transmitter circuitry present in device or used in design
+
+
+---------------
+; Report RSKM ;
+---------------
+No dedicated SERDES Receiver circuitry present in device or used in design
+
+
++------------------------------------------------+
+; Unconstrained Paths                            ;
++---------------------------------+-------+------+
+; Property                        ; Setup ; Hold ;
++---------------------------------+-------+------+
+; Illegal Clocks                  ; 0     ; 0    ;
+; Unconstrained Clocks            ; 0     ; 0    ;
+; Unconstrained Input Ports       ; 18    ; 18   ;
+; Unconstrained Input Port Paths  ; 74    ; 74   ;
+; Unconstrained Output Ports      ; 5     ; 5    ;
+; Unconstrained Output Port Paths ; 5     ; 5    ;
++---------------------------------+-------+------+
+
+
++------------------------------------+
+; TimeQuest Timing Analyzer Messages ;
++------------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit TimeQuest Timing Analyzer
+    Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+    Info: Processing started: Fri Oct 02 23:31:06 2026
+Info: Command: quartus_sta fx2_transport_test -c fx2_transport_test
+Info: qsta_default_script.tcl version: #1
+Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
+Info (332104): Reading SDC File: 'fx2_ml_bridge.sdc'
+Info: Found TIMEQUEST_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
+Info: Analyzing Slow Model
+Info (332146): Worst-case setup slack is 193.954
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):   193.954         0.000 clk 
+Info (332146): Worst-case hold slack is 0.499
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):     0.499         0.000 clk 
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
+Info (332146): Worst-case minimum pulse width slack is 8.758
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):     8.758         0.000 clk 
+Info (332001): The selected device family is not supported by the report_metastability command.
+Info: Analyzing Fast Model
+Info (332146): Worst-case setup slack is 197.956
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):   197.956         0.000 clk 
+Info (332146): Worst-case hold slack is 0.215
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):     0.215         0.000 clk 
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
+Info (332146): Worst-case minimum pulse width slack is 9.000
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):     9.000         0.000 clk 
+Info (332001): The selected device family is not supported by the report_metastability command.
+Info (332102): Design is not fully constrained for setup requirements
+Info (332102): Design is not fully constrained for hold requirements
+Info: Quartus II 64-Bit TimeQuest Timing Analyzer was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 4583 megabytes
+    Info: Processing ended: Fri Oct 02 23:31:08 2026
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:01
+
+

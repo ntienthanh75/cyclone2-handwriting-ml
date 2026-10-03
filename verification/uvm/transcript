@@ -1,4 +1,4 @@
-# do run.do 
+# do run_golden.do 
 # if {[file exists work]} { vdel -lib work -all }
 # vlib work
 # set UVM_ROOT "D:/Program/altera/13.0sp1/modelsim_ase/verilog_src/uvm-1.1c/src"
@@ -163,8 +163,8 @@
 # 
 # Top level modules:
 # 	tb_top
-# vsim -t 1ps -L work tb_top
-# vsim -L work -t 1ps tb_top 
+# vsim -t 1ps -L work tb_top +UVM_TESTNAME=ml_golden_test
+# vsim +UVM_TESTNAME=ml_golden_test -L work -t 1ps tb_top 
 # Loading sv_std.std
 # Loading work.uvm_pkg
 # Loading work.ml_inference_pkg
@@ -376,20 +376,25 @@
 # 
 #       (Specify +UVM_NO_RELNOTES to turn off this notice)
 # 
-# UVM_INFO @ 0: reporter [RNTST] Running test ml_smoke_test...
-# UVM_INFO ml_inference_pkg.sv(70) @ 268290000: uvm_test_top.env.scoreboard [RESULT] digit=0 accepted=0 confidence=0 margin=0 cycles=13408
-# UVM_INFO D:/Program/altera/13.0sp1/modelsim_ase/verilog_src/uvm-1.1c/src/base/uvm_objection.svh(1121) @ 268290000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO D:/Program/altera/13.0sp1/modelsim_ase/verilog_src/uvm-1.1c/src/base/uvm_root.svh(367) @ 0: reporter [NO_DPI_TSTNAME] UVM_NO_DPI defined--getting UVM_TESTNAME directly, without DPI
+# UVM_INFO @ 0: reporter [RNTST] Running test ml_golden_test...
+# UVM_INFO ml_inference_pkg.sv(95) @ 268350000: uvm_test_top.env.scoreboard [RESULT] digit=2 accepted=1 confidence=255 margin=4543 cycles=13411
+# UVM_INFO ml_inference_pkg.sv(95) @ 536610000: uvm_test_top.env.scoreboard [RESULT] digit=2 accepted=1 confidence=255 margin=65535 cycles=26823
+# UVM_INFO ml_inference_pkg.sv(95) @ 804870000: uvm_test_top.env.scoreboard [RESULT] digit=5 accepted=1 confidence=255 margin=65535 cycles=40235
+# UVM_INFO ml_inference_pkg.sv(95) @ 1073130000: uvm_test_top.env.scoreboard [RESULT] digit=2 accepted=1 confidence=255 margin=8587 cycles=53647
+# UVM_INFO D:/Program/altera/13.0sp1/modelsim_ase/verilog_src/uvm-1.1c/src/base/uvm_objection.svh(1121) @ 1073130000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
 # 
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :    3
+# UVM_INFO :    7
 # UVM_WARNING :    0
 # UVM_ERROR :    0
 # UVM_FATAL :    0
 # ** Report counts by id
-# [RESULT]     1
+# [NO_DPI_TSTNAME]     1
+# [RESULT]     4
 # [RNTST]     1
 # [TEST_DONE]     1
 # ** Note: $finish    : D:/Program/altera/13.0sp1/modelsim_ase/verilog_src/uvm-1.1c/src/base/uvm_root.svh(427)
-#    Time: 268290 ns  Iteration: 54  Instance: /tb_top
+#    Time: 1073130 ns  Iteration: 54  Instance: /tb_top

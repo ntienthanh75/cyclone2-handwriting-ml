@@ -21,14 +21,19 @@ The PC writes 99 little-endian 16-bit words to EP2:
    - pixel `2*n` in bits `[3:0]`
    - pixel `2*n+1` in bits `[11:8]`
 
-The FPGA writes six 16-bit words to EP6:
+The FPGA writes two identical six-word result frames to EP6. The FX2 firmware
+groups them into one 24-byte auto-IN packet:
 
-1. `0x5A5A`
+1. `0xC33C` result marker
 2. digit in `[3:0]`, accepted in bit `[8]`
 3. confidence in `[7:0]`
 4. margin
 5. processing cycles `[15:0]`
 6. processing cycles `[31:16]`
+
+The host reads the complete 24-byte packet, scans both frames for `0xC33C`,
+and accepts the first complete valid frame. This avoids splitting a 12-byte
+result at a WinUSB request boundary.
 
 `accepted=0` means `NON_RECOGNIZABLE`.
 
@@ -45,6 +50,36 @@ The USB device currently appears in Windows as `EZ-USB FX2`, VID `0547`, PID
 This project must be compiled and tested against the actual FX2 firmware before
 the result packet is considered hardware-validated. The older VHDL USB LED
 project proves the electrical pin mapping, but not this ML packet format.
+
+## Verified hardware benchmark
+
+The repeatable command-line benchmark is:
+
+```powershell
+C:\Python313\python.exe D:\fpga\cyclone2-handwriting-ml\python\run_hardware_benchmark.py
+```
+
+It sends the four-point 14x14 frame through EP2, receives the result through
+EP6, and repeats the complete PC -> FPGA -> PC transaction ten times. The
+verified run on 2026-10-03 produced 10/10 valid accepted results:
+
+```text
+digit=6, confidence=255, margin=44031
+```
+
+The cycle count increases by 13,412 per frame because it is a free-running
+board-clock counter; it is not the classification result. The host decoder
+rotates the six returned words at `0xC33C` because the FX2/WinUSB bulk packet
+boundary can expose a complete result frame at a rotated word offset. This is
+normal transport alignment, not corrupted ML data.
+
+The bridge was made reliable by four hardware changes: the FX2 OUT flag is
+treated as data-available, the read strobe is held for four 50 MHz cycles after
+an asynchronous-flag settle period, and the received 99-word frame is stored
+in explicit dual-port FPGA RAM before the ML core starts. The result is
+duplicated inside the FX2 FIFO packet, and the FX2 firmware uses a 24-byte
+EP6 auto-IN length. The firmware is reloaded from the rebuilt
+`fx2_ml_slavefifo.bix` before testing.
 
 ## Board-free validation
 
