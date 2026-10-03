@@ -5,7 +5,7 @@ The image is a Quartus `.sof` file containing the FX2 USB bridge, the ML
 inference RTL, ROM weights, clock/reset logic, and board pin assignments.
 There is no separate “ML core download” step and Nios is not required.
 
-## 1. Hardware and software
+## Step 1 — Prepare the hardware and software
 
 Use:
 
@@ -18,7 +18,7 @@ Use:
 The USB-Blaster is used only to load the FPGA. The CY7C68013A is a separate
 runtime USB data path for sending image frames and receiving digit results.
 
-## 2. Confirm the USB-Blaster and FPGA
+## Step 2 — Confirm the USB-Blaster and FPGA
 
 Open PowerShell and run:
 
@@ -37,7 +37,7 @@ If no USB-Blaster appears, fix its Windows driver/cable/power connection
 before opening Programmer. Do not use the FX2 USB device as a substitute for
 the USB-Blaster.
 
-## 3. Choose the correct SOF
+## Step 3 — Choose the correct SOF
 
 The ready-to-program image is:
 
@@ -50,7 +50,7 @@ configuration: it is lost when the FPGA board is powered off or reset. The
 image must be programmed again after a power cycle unless a configuration
 flash image is intentionally created and programmed.
 
-## 4. Program from the command line
+## Step 4 — Program from the command line
 
 This is the shortest repeatable method:
 
@@ -70,7 +70,7 @@ Successfully performed operation(s)
 Programming the FPGA does not start the PC UI and does not send an image. It
 only puts the bridge and ML hardware into the Cyclone II configuration SRAM.
 
-## 5. Program through the Quartus Programmer UI
+## Step 5 — Program through the Quartus Programmer UI
 
 1. Start **Quartus Prime Programmer**.
 2. Select **Hardware Setup** and choose `USB-Blaster [USB-0]`.
@@ -87,7 +87,7 @@ The error `expected 2 device(s) but found 1 device(s)` means the `.cdf` chain
 file contains a stale extra device. Delete the extra row, or create a fresh
 one-device chain with Auto Detect, then add the SOF again.
 
-## 6. Connect the runtime FX2 path
+## Step 6 — Connect the runtime FX2 path and run the UI
 
 After the FPGA has been programmed:
 
@@ -112,7 +112,7 @@ The request is 99 little-endian 16-bit words (198 bytes). The FPGA returns a
 24-byte packet containing two redundant six-word result frames. `accepted=0`
 is displayed as `NON-RECOGNIZABLE`.
 
-## 7. Optional: rebuild the SOF
+## Optional Step 7 — Rebuild the SOF after RTL changes
 
 Use this only when changing RTL or constraints. The installed Quartus II
 13.0sp1 toolchain is the compatible compiler for this Cyclone II project:
@@ -133,7 +133,7 @@ Do not program a `.pof` or `.jdi` when the immediate goal is volatile JTAG
 configuration. The `.sof` is the correct file for **Program/Configure** in
 JTAG mode.
 
-## Troubleshooting checklist
+## Step 8 — Troubleshooting checklist
 
 | Symptom | Meaning | Action |
 |---|---|---|
