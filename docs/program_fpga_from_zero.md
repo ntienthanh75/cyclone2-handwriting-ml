@@ -50,11 +50,12 @@ configuration: it is lost when the FPGA board is powered off or reset. The
 image must be programmed again after a power cycle unless a configuration
 flash image is intentionally created and programmed.
 
-## Step 4A — Program from the command line
+## Step 4 — Program the FPGA: choose one method
 
-Step 4A and Step 4B are alternatives. After completing Steps 1–3, use either
-the PowerShell command below or the Quartus Programmer UI in Step 4B. You do
-not need to program the same SOF twice.
+After completing Steps 1–3, choose either Step 4A or Step 4B below. They are
+alternative methods; do not program the same SOF twice.
+
+### Step 4A — Program from the command line
 
 This is the shortest repeatable method:
 
@@ -74,7 +75,7 @@ Successfully performed operation(s)
 Programming the FPGA does not start the PC UI and does not send an image. It
 only puts the bridge and ML hardware into the Cyclone II configuration SRAM.
 
-## Step 4B — Alternative programming method: Quartus Programmer UI
+### Step 4B — Alternative programming method: Quartus Programmer UI
 
 1. Start **Quartus Prime Programmer**.
 2. Select **Hardware Setup** and choose `USB-Blaster [USB-0]`.
@@ -91,7 +92,7 @@ The error `expected 2 device(s) but found 1 device(s)` means the `.cdf` chain
 file contains a stale extra device. Delete the extra row, or create a fresh
 one-device chain with Auto Detect, then add the SOF again.
 
-## Step 6 — Connect the runtime FX2 path and run the UI
+## Step 5 — Connect the runtime FX2 path and run the UI
 
 After the FPGA has been programmed:
 
@@ -116,7 +117,7 @@ The request is 99 little-endian 16-bit words (198 bytes). The FPGA returns a
 24-byte packet containing two redundant six-word result frames. `accepted=0`
 is displayed as `NON-RECOGNIZABLE`.
 
-## Optional Step 7 — Rebuild the SOF after RTL changes
+## Optional Step 6 — Rebuild the SOF after RTL changes
 
 Use this only when changing RTL or constraints. The installed Quartus II
 13.0sp1 toolchain is the compatible compiler for this Cyclone II project:
@@ -137,7 +138,7 @@ Do not program a `.pof` or `.jdi` when the immediate goal is volatile JTAG
 configuration. The `.sof` is the correct file for **Program/Configure** in
 JTAG mode.
 
-## Step 8 — Troubleshooting checklist
+## Step 7 — Troubleshooting checklist
 
 | Symptom | Meaning | Action |
 |---|---|---|
