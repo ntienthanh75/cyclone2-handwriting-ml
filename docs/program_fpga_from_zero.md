@@ -50,10 +50,10 @@ configuration: it is lost when the FPGA board is powered off or reset. The
 image must be programmed again after a power cycle unless a configuration
 flash image is intentionally created and programmed.
 
-## Step 4 — Choose one programming method: command line
+## Step 4A — Program from the command line
 
-Step 4 and Step 5 are alternatives. After completing Steps 1–3, use either
-the PowerShell command below or the Quartus Programmer UI in Step 5. You do
+Step 4A and Step 4B are alternatives. After completing Steps 1–3, use either
+the PowerShell command below or the Quartus Programmer UI in Step 4B. You do
 not need to program the same SOF twice.
 
 This is the shortest repeatable method:
@@ -74,7 +74,7 @@ Successfully performed operation(s)
 Programming the FPGA does not start the PC UI and does not send an image. It
 only puts the bridge and ML hardware into the Cyclone II configuration SRAM.
 
-## Step 5 — Alternative programming method: Quartus Programmer UI
+## Step 4B — Alternative programming method: Quartus Programmer UI
 
 1. Start **Quartus Prime Programmer**.
 2. Select **Hardware Setup** and choose `USB-Blaster [USB-0]`.
