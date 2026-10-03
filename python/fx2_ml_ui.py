@@ -62,7 +62,7 @@ class MLViewer:
         preview.pack(fill="x")
         left = ttk.LabelFrame(preview, text="Input sent to FPGA (14×14)", padding=8)
         left.pack(side="left", fill="both", expand=True, padx=(0, 5))
-        right = ttk.LabelFrame(preview, text="Recognized result", padding=8)
+        right = ttk.LabelFrame(preview, text="FPGA result (same frame + digit)", padding=8)
         right.pack(side="left", fill="both", expand=True, padx=(5, 0))
         self.input_canvas = tk.Canvas(left, width=14 * self.CELL, height=14 * self.CELL,
                                       background="white", highlightthickness=1,
@@ -72,6 +72,8 @@ class MLViewer:
                                        background="white", highlightthickness=1,
                                        highlightbackground="#aaaaaa")
         self.output_canvas.pack()
+        self.result_detail = tk.StringVar(value="No FPGA result yet")
+        ttk.Label(right, textvariable=self.result_detail, font=("Segoe UI", 10, "bold")).pack(pady=(6, 0))
 
         action = ttk.Frame(root, padding=10)
         action.pack(fill="x")
@@ -118,6 +120,7 @@ class MLViewer:
         self.source, self.expected = source, expected
         self.source_label.set(source if expected is None else f"{source} (label {expected})")
         self.result.set("Result: —")
+        self.result_detail.set("No FPGA result yet — click 3. Send sample to FPGA")
         self.draw(self.input_canvas, self.pixels)
         self.draw(self.output_canvas, self.pixels, outline="#999999")
         self.write(f"sample ready: {source}; 196 normalized pixels")
@@ -232,6 +235,9 @@ class MLViewer:
                     digit = int(result["digit"])
                     verdict = f"digit {digit}" if accepted else "NON-RECOGNIZABLE"
                     self.result.set(f"Result: {verdict}")
+                    self.result_detail.set(
+                        f"FPGA recognized: {verdict} | confidence {result['confidence']} | "
+                        f"{elapsed:.3f} ms")
                     self.draw(self.output_canvas, self.pixels, outline="#35a853" if accepted else "#cc3333")
                     self.write(
                         f"stage 3/3: {verdict}; confidence={result['confidence']}; "
@@ -249,6 +255,7 @@ class MLViewer:
                     self.write(f"transfer error: {payload}")
                     self.status.set("Transfer failed; ready to retry")
                     self.result.set("Result: —")
+                    self.result_detail.set("No complete FPGA result")
                     self.busy = False
                     self.progress.stop()
                     self.send_button.configure(state="normal")
