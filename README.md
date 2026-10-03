@@ -87,6 +87,9 @@ time, correctness, and any recovery/error.
 
 ## Interactive sample-to-FPGA UI
 
+For the complete first-time setup, see
+[docs/program_fpga_from_zero.md](docs/program_fpga_from_zero.md).
+
 After programming the checked-in bridge SOF with Quartus Programmer, run the
 interactive viewer from the repository root:
 
