@@ -98,6 +98,35 @@ Option 2 requires a new unified Quartus design containing:
 
 This is a later hardware project, not a PC UI-only change.
 
+## Option 2 resource calculation
+
+Using the measured ML bridge as the fixed part of a unified design, the
+remaining upper-bound budget is:
+
+| Resource | EP2C5 total | ML bridge used | Remaining budget for direct LCD/touch logic |
+|---|---:|---:|---:|
+| Logic elements | 4,608 | 3,135 | 1,473 |
+| Pins | 89 | 31 | 58 |
+| Memory bits | 119,808 | 56,912 | 62,896 |
+| 9-bit multipliers | 26 | 5 | 21 |
+| PLLs | 2 | 0 | 2 |
+
+The existing LCD/Nios implementation needs 4,282 logic elements and 78 pins.
+To coexist with the current ML bridge, it would have to shrink to at most
+1,473 logic elements and at most 58 pins. That means removing at least 2,809
+logic elements, or 65.6% of the current LCD/Nios logic, plus at least 20 pins.
+Therefore an Option 2 design that keeps the existing Nios system is not
+realistic on this device.
+
+A possible Option 2 redesign would remove Nios and implement only a small RTL
+touch collector: an XPT2046 SPI state machine, coordinate mapping, a 14×14
+bitmap RAM, finish/clear control, and a shared FX2 frame streamer. That design
+must still include whatever LCD pixel-write logic is needed for live drawing.
+Its feasibility cannot be claimed from addition alone; it must be written and
+compiled as a new top level. The first acceptance criterion is a successful
+Quartus fit below 1,473 logic elements for the direct LCD/touch side while
+preserving the ML bridge timing and all required pins.
+
 ## PC result collection format
 
 The collector should append one record per completed drawing:
