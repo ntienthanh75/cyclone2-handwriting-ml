@@ -85,6 +85,32 @@ The benchmark script writes one row per labeled sample, including expected
 label, FPGA digit, acceptance, confidence, margin, FPGA cycle count, transport
 time, correctness, and any recovery/error.
 
+## Interactive sample-to-FPGA UI
+
+After programming the checked-in bridge SOF with Quartus Programmer, run the
+interactive viewer from the repository root:
+
+```powershell
+& D:\Programs\cyclone2-handwriting-ml-venv\Scripts\python.exe `
+  python\fx2_ml_ui.py
+```
+
+The window has one explicit flow:
+
+1. Load a local MNIST test sample, choose a handwriting photo, or select the
+   built-in four-point diagnostic frame. The left preview is the exact 14×14,
+   4-bit frame that will be transmitted.
+2. Click **Send sample to FPGA**. The log reports the 99-word/198-byte request,
+   transaction ID, and receive stage.
+3. The result area shows the FPGA digit or `NON-RECOGNIZABLE`. The log records
+   confidence, margin, FPGA cycle count, round-trip time, and, for MNIST
+   samples, comparison with the known label.
+
+The UI uses WinUSB through the CY7C68013A FX2 bridge. It does not program the
+FPGA and it does not use Nios; Quartus Programmer must load the SOF separately.
+The older `python/fx2_winusb_ui.py` remains available as a lower-level
+diagnostic tool.
+
 ### Accuracy issue found by the benchmark
 
 The PC preprocessing and transport are not enough to prove that the FPGA is
