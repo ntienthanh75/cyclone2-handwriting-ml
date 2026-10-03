@@ -1,16 +1,16 @@
-Fitter Status : Successful - Sat Oct 03 02:00:19 2026
+Fitter Status : Successful - Sat Oct 03 09:24:58 2026
 Quartus II 64-Bit Version : 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition
 Revision Name : fx2_ml_bridge
 Top-level Entity Name : ml_fx2_stream_bridge
 Family : Cyclone II
 Device : EP2C5T144C8
 Timing Models : Final
-Total logic elements : 4,158 / 4,608 ( 90 % )
-    Total combinational functions : 4,089 / 4,608 ( 89 % )
-    Dedicated logic registers : 1,141 / 4,608 ( 25 % )
-Total registers : 1141
+Total logic elements : 3,076 / 4,608 ( 67 % )
+    Total combinational functions : 3,007 / 4,608 ( 65 % )
+    Dedicated logic registers : 775 / 4,608 ( 17 % )
+Total registers : 775
 Total pins : 31 / 89 ( 35 % )
 Total virtual pins : 0
-Total memory bits : 57,904 / 119,808 ( 48 % )
-Embedded Multiplier 9-bit elements : 9 / 26 ( 35 % )
+Total memory bits : 56,912 / 119,808 ( 48 % )
+Embedded Multiplier 9-bit elements : 5 / 26 ( 19 % )
 Total PLLs : 0 / 2 ( 0 % )

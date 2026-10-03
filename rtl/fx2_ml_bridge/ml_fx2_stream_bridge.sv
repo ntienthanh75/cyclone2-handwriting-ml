@@ -44,7 +44,6 @@ module ml_fx2_stream_bridge (
     reg [7:0] saved_confidence;
     reg [15:0] saved_margin;
     reg [31:0] saved_cycles;
-    reg [1:0] tx_packet_count;
   localparam TX_IDLE=0, TX_SETUP=1, TX_WRITE=2, TX_NEXT=3;
   wire ml_busy, ml_result_valid, ml_result_accepted;
   wire [3:0] ml_result_digit;
@@ -191,3 +190,4 @@ module ml_fx2_stream_bridge (
     end
   end
 endmodule
+    reg [1:0] tx_packet_count;

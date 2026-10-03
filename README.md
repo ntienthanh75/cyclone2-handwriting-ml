@@ -52,12 +52,16 @@ complete per-sample record is saved in
 | Transport recoveries | 19 |
 | Unrecovered transport errors | 0 |
 
-This is a successful transport/liveness benchmark but a failing ML-accuracy
-benchmark. The FPGA repeatedly predicted digit 5 (the most common prediction
-in this run), so the result must not be presented as a working handwriting
-recognizer. The small earlier 10/10 result only checked repeated identical
-responses for one synthetic four-point frame; it did not measure MNIST
-accuracy.
+This initial result was a transport/liveness success but an ML-accuracy
+failure. It exposed two RTL bugs that are now corrected: the FPGA used raw
+uint4 pixels without the training scale, and the ROM addresses treated the
+row-major MIF files as transposed. A software reproduction of the corrected
+shift-only fixed-point formula reaches 94.5% on these same 200 images, and
+the corrected FPGA matches the software reference during stable USB runs.
+The remaining blocker is FX2 recovery: after a WinUSB timeout, the bridge can
+still replay an old frame or accept a repeated frame. The benchmark records
+this separately and must not be called a final accuracy result until the
+frame-sequence protocol is made deterministic.
 
 Reproduce it with:
 
@@ -81,13 +85,13 @@ MIF weight/bias ordering, or a frame/accumulator state error. The 19 recoveries
 are a separate FX2 packet-boundary/flush issue; they were recovered without
 losing a benchmark row.
 
-The resolution path is now explicit: compare the FPGA result against the
-Python quantized reference for the same 200 normalized frames, then add a
-cycle-by-cycle directed UVM scoreboard using those vectors. Verify MIF address
-ordering and signed arithmetic before changing the network or thresholds.
-Only after that comparison passes should the `.sof` be called an accurate
-hardware classifier. See [verification/ISSUES_AND_LESSONS.md](verification/ISSUES_AND_LESSONS.md)
-for the root-cause tracking entry.
+The completed numerical resolution is in `rtl/ml_inference.sv`: input scaling
+uses a resource-safe shift approximation, output scaling uses a shift, and
+the ROM addresses now match NumPy row-major layout. The remaining resolution
+is to add a transaction sequence number or explicit FPGA reset/flush handshake
+to the FX2 protocol, then rerun all 200 samples without frame replay. See
+[verification/ISSUES_AND_LESSONS.md](verification/ISSUES_AND_LESSONS.md) for
+the root-cause tracking entries.
 
 ## Primary test path: PC photo to FPGA
 

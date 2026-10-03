@@ -1,7 +1,5 @@
 v1
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,ml_inference:core_i|lpm_mult:Mult2|mult_90t:auto_generated|mac_out2,
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,ml_inference:core_i|lpm_mult:Mult1|mult_fus:auto_generated|mac_out2,
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,ml_inference:core_i|lpm_mult:Mult2|mult_90t:auto_generated|mac_out8,
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,ml_inference:core_i|lpm_mult:Mult2|mult_90t:auto_generated|mac_out6,
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,ml_inference:core_i|lpm_mult:Mult2|mult_90t:auto_generated|mac_out4,
-PORT_SWAPPING,PORT_SWAP_TYPE_DSPMULT,ml_inference:core_i|lpm_mult:Mult1|mult_fus:auto_generated|mac_mult1,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,ml_inference:core_i|lpm_mult:Mult1|mult_vvs:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,ml_inference:core_i|lpm_mult:Mult0|mult_fus:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,ml_inference:core_i|lpm_mult:Mult1|mult_vvs:auto_generated|mac_out4,
+PORT_SWAPPING,PORT_SWAP_TYPE_DSPMULT,ml_inference:core_i|lpm_mult:Mult0|mult_fus:auto_generated|mac_mult1,

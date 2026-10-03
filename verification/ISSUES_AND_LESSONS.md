@@ -36,6 +36,8 @@ signed quantized weights stored in Quartus MIF files.
 | I-017 | The generated `.sof` is not ready for physical-board use. | No board pin mapping, LCD wrapper, touch transport, or board-level reset/clock integration is included. | Keep synthesis and UVM as pre-integration milestones. Add a board wrapper only after numerical verification. | Open |
 | I-018 | The 200-sample physical MNIST benchmark returned 200 accepted responses but only 17 correct labels (8.50%). | The PC-to-FX2-to-FPGA path is live, but the FPGA inference result is not numerically equivalent to the Python quantized reference. The dominant prediction of digit 5 suggests a fixed-point scale/sign error, MIF address/order mismatch, or an ML state/accumulator sequencing error. | Keep the captured CSV as the failing reference. Generate identical Python golden vectors, compare every layer/output in SystemVerilog UVM, verify signed MIF reads and frame boundaries, then rebuild the SOF and rerun 200 samples. Do not tune thresholds until logits agree. | Open; accuracy blocker |
 | I-019 | The same 200-sample run needed 19 transport recoveries, although all 200 rows were recovered. | FX2 EP6 response packet boundaries or stale FIFO bytes occasionally caused an incomplete result frame or a timeout. | The runner closes/reopens WinUSB and repeats the sample up to three times, recording recoveries. The permanent fix is to make the FPGA/FX2 packet contract deterministic and validate the flush/sequence behavior with a transport stress test. | Open; transport robustness |
+| I-020 | After the arithmetic fix, stable hardware sequences match the Python reference, but a WinUSB recovery can replay the previous frame or duplicate the next result. | The bridge has no transaction sequence number and its redundant EP6 response can survive a timeout/reconnect; cycle count alone cannot prove that the pixel frame was the intended one. | Corrected the numerical RTL and added newest-result/whole-packet handling in the PC runner. Final resolution requires a request/response sequence field or an explicit bridge reset/flush handshake. | Open; frame-integrity blocker |
+| I-021 | An exact `/15` and `/102` RTL divider implementation exceeded EP2C5 resources. | Quartus inferred large divider logic for the fixed-point layer boundaries. | Replaced the dividers with `/16` and `/128` arithmetic shifts and reduced hidden/accumulator widths; the bridge now fits with positive timing slack. | Resolved; approximation documented |
 
 ## Current verified state
 
@@ -51,6 +53,10 @@ signed quantized weights stored in Quartus MIF files.
   only 17 labels were correct; this is a live transport result, not an
   accurate classifier result. See `artifacts/hardware_benchmark_200.csv` and
   the I-018/I-019 entries above.
+- The fixed-point and MIF-layout defects are corrected and verified by
+  software equivalence at approximately 94.5% on the same 200 frames. The
+  remaining physical-board accuracy gap is frame integrity after FX2 recovery,
+  tracked as I-020.
 
 ## Recommended order of future work
 

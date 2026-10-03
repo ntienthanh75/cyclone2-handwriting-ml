@@ -43,6 +43,7 @@ def main() -> None:
         for offset, (pixels, label) in enumerate(zip(frames, expected)):
             result = None
             error = ""
+            recovered = False
             started = time.perf_counter()
             for attempt in range(3):
                 try:
@@ -55,6 +56,7 @@ def main() -> None:
                         print(f"{offset + 1}: transport failure: {exc}")
                         break
                     recoveries += 1
+                    recovered = True
                     print(f"{offset + 1}: recovery {attempt + 1}: {exc}")
                     dev.close()
                     time.sleep(0.25)
@@ -66,6 +68,13 @@ def main() -> None:
                              "confidence": "", "margin": "", "cycles": "",
                              "transport_ms": f"{elapsed_ms:.3f}", "correct": 0, "error": error})
                 continue
+            if recovered:
+                # A timed-out EP6 read can leave the bridge's redundant
+                # response queued after the retry.  Consume that duplicate
+                # before the next labeled frame, otherwise results shift by
+                # one sample.
+                time.sleep(0.25)
+                dev._drain_stale_in()
             is_accepted = bool(result["accepted"])
             is_correct = is_accepted and int(result["digit"]) == int(label)
             accepted += int(is_accepted)

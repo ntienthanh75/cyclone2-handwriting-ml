@@ -72,6 +72,7 @@ class FX2:
     def __init__(self) -> None:
         self.dev = self.usb = None
         self.out_pipe = self.in_pipe = None
+        self.last_result_cycles = None
         self.path = ""
         self.setup = ctypes.WinDLL("setupapi.dll")
         self.k32 = ctypes.WinDLL("kernel32.dll")
@@ -215,6 +216,7 @@ class FX2:
         timeout_ms = wintypes.ULONG(3000)
         self.wusb.WinUsb_SetPipePolicy(self.usb, self.in_pipe, 0x03,
                                        ctypes.sizeof(timeout_ms), ctypes.byref(timeout_ms))
+        self._drain_stale_in()
         return f"connected; OUT 0x{self.out_pipe:02X}, IN 0x{self.in_pipe:02X}"
 
     def close(self) -> None:
@@ -231,14 +233,17 @@ class FX2:
                                        ctypes.sizeof(short_timeout), ctypes.byref(short_timeout))
         try:
             for _ in range(64):
-                buf = ctypes.create_string_buffer(12)
+                # The bridge emits a 24-byte packet (two six-word result
+                # frames).  Drain a whole packet; a 2-byte read can leave the
+                # remaining stale frame queued on WinUSB.
+                buf = ctypes.create_string_buffer(24)
                 got = wintypes.ULONG()
                 event = self.k32.CreateEventW(None, True, False, None)
                 if not event:
                     break
                 ov = OVERLAPPED(); ov.hEvent = event
                 try:
-                    ok = self.wusb.WinUsb_ReadPipe(self.usb, self.in_pipe, buf, 2,
+                    ok = self.wusb.WinUsb_ReadPipe(self.usb, self.in_pipe, buf, 24,
                                                    ctypes.byref(got), ctypes.byref(ov))
                     if not ok:
                         code = self.k32.GetLastError()
@@ -307,12 +312,15 @@ class FX2:
         return result
 
     def _decode_stream(self, words: list[int]) -> dict[str, int | bool] | None:
-        """Find a complete result frame in the redundant 12-word stream."""
+        """Find the complete result frame in the response stream."""
+        newest = None
         for start in range(max(0, len(words) - 5)):
             if words[start] == 0xC33C:
                 result = self._decode_packet(words[start:start + 6])
                 if result is not None:
-                    return result
+                    newest = result
+        if newest is not None:
+            return newest
         # A single complete packet may be rotated, for example after a
         # reconnect.  Preserve the fallback for diagnostic/raw use.
         if len(words) == 6:
@@ -344,10 +352,21 @@ class FX2:
         if sent.value != len(payload):
             raise OSError(f"short USB write: {sent.value} of {len(payload)} bytes")
         if not raw and read_words == 6:
-            result = self._decode_stream(self._read_result_chunks())
-            if result is None:
-                raise OSError("no complete FPGA result frame received")
-            return result
+            # The FPGA cycle counter increases for every accepted frame.  A
+            # reconnect can expose an old duplicate response before the
+            # current response, so reject non-newer packets and continue
+            # reading until the current transaction is observed.
+            for _ in range(4):
+                result = self._decode_stream(self._read_result_chunks())
+                if result is None:
+                    raise OSError("no complete FPGA result frame received")
+                stale_before_run = self.last_result_cycles is None and result["cycles"] > 1_000_000
+                stale_duplicate = (self.last_result_cycles is not None and
+                                   result["cycles"] <= self.last_result_cycles)
+                if not stale_before_run and not stale_duplicate:
+                    self.last_result_cycles = result["cycles"]
+                    return result
+            raise OSError("FPGA result did not advance after four response packets")
             return best[0]
         else:
             words = list(struct.unpack("<%dH" % read_words, self._read_exact(2 * read_words)))
