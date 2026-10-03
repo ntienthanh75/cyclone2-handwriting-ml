@@ -109,6 +109,10 @@ The window has one explicit flow:
    confidence, margin, FPGA cycle count, round-trip time, and, for MNIST
    samples, comparison with the known label.
 
+If an EP6 read is incomplete or times out, the UI automatically performs up to
+two reconnect/retry attempts and writes each recovery to the log. This is the
+same recovery policy used by the validated hardware benchmark.
+
 The UI uses WinUSB through the CY7C68013A FX2 bridge. It does not program the
 FPGA and it does not use Nios; Quartus Programmer must load the SOF separately.
 The older `python/fx2_winusb_ui.py` remains available as a lower-level

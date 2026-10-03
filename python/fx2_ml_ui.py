@@ -183,7 +183,28 @@ class MLViewer:
             sequence = self.dev.sequence
             self.events.put(("log", f"stage 1/3: sending 99 words / 198 bytes, ID {sequence}"))
             self.events.put(("stage", "sending"))
-            result = self.dev.transact(pack_frame(pixels, sequence))
+            result = None
+            recovered = False
+            for attempt in range(3):
+                try:
+                    result = self.dev.transact(pack_frame(pixels, sequence))
+                    break
+                except (OSError, TimeoutError) as exc:
+                    if attempt == 2:
+                        raise
+                    recovered = True
+                    self.events.put(("log", f"recovery {attempt + 1}/2: {exc}"))
+                    self.dev.close()
+                    time.sleep(0.25)
+                    message = self.dev.open()
+                    self.events.put(("connected", message))
+            if result is None:
+                raise OSError("no FPGA result after three attempts")
+            if recovered:
+                # A failed EP6 read can leave the bridge's redundant response
+                # queued after the retry.  Drain it before the next sample.
+                time.sleep(0.25)
+                self.dev._drain_stale_in()
             elapsed = (time.perf_counter() - started) * 1000.0
             self.events.put(("stage", "received"))
             self.events.put(("result", (result, elapsed)))

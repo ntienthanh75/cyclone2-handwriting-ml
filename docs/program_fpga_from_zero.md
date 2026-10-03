@@ -113,6 +113,11 @@ powershell -ExecutionPolicy Bypass -File `
    show a digit, confidence, margin, FPGA cycles, and round-trip time.
 7. Next choose an MNIST sample or handwriting photo and send it the same way.
 
+If the first response is incomplete or times out, the UI automatically closes
+and reopens the FX2 interface and retries the same transaction up to two times.
+The log shows each recovery. If all three attempts fail, reprogram the SOF
+using Step 4A or 4B, reconnect the FX2, and repeat Step 5.
+
 The request is 99 little-endian 16-bit words (198 bytes). The FPGA returns a
 24-byte packet containing two redundant six-word result frames. `accepted=0`
 is displayed as `NON-RECOGNIZABLE`.
