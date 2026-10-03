@@ -1,0 +1,2 @@
+sample_id,dataset_index,expected_label,fpga_digit,accepted,confidence,margin,cycles,transport_ms,correct,error
+1,0,7,,0,,,,718.436,0,OSError

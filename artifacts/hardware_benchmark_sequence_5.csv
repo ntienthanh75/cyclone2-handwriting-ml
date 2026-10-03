@@ -1,0 +1,6 @@
+sample_id,dataset_index,expected_label,fpga_digit,accepted,confidence,margin,cycles,transport_ms,correct,error
+1,0,7,,0,,,,9748.404,0,TimeoutError
+2,1,2,,0,,,,9746.463,0,TimeoutError
+3,2,1,,0,,,,9754.543,0,TimeoutError
+4,3,0,,0,,,,9746.873,0,TimeoutError
+5,4,4,,0,,,,9748.713,0,TimeoutError
