@@ -75,6 +75,36 @@ includes recovery delays and is from the benchmark procedure. The practical
 normal transaction rate is approximately 330 images/second, while the FPGA
 classifier itself can process approximately 414 images/second.
 
+## 500-sample hardware benchmark
+
+Source: `artifacts/hardware_benchmark_500.csv`  
+The FPGA was reconfigured from the checked-in SOF before this run. The
+benchmark used the same 0.75-second inter-sample delay and the same recovery
+logic as the 200-sample run.
+
+| Metric | Result |
+|---|---:|
+| Samples requested | 500 |
+| Accepted responses | 497 |
+| Correct predictions | 446 |
+| Accuracy overall | 89.20% |
+| Accuracy among accepted responses | 89.74% |
+| Recoveries | 185 |
+| Unrecovered transport errors | 3 |
+| Normal accepted transaction median | 3.032 ms |
+| Normal accepted transaction average | 3.089 ms |
+| Normal transaction rate | approximately 329.8 images/s |
+| Median FPGA processing delta | 13,412 cycles = 0.26824 ms |
+
+The three transport failures are counted as incorrect in the overall metric,
+but are excluded from classifier accuracy among accepted responses. The 185
+recoveries are host-side USB recovery events; transaction IDs kept the
+accepted responses aligned with their requested images. The classifier
+accuracy is lower than the earlier 200-sample result, so this run should be
+treated as the larger and more representative reference. The measured normal
+transaction rate excludes the deliberate 0.75-second benchmark delay and the
+recovery pauses.
+
 ## Quartus timing and resources
 
 - Worst-case setup slack: +68.935 ns
@@ -86,4 +116,3 @@ classifier itself can process approximately 414 images/second.
 
 The design meets the 50 MHz timing requirement. The remaining performance
 limitation is FX2/WinUSB recovery behavior, not the ML datapath timing.
-
