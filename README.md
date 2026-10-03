@@ -89,6 +89,8 @@ time, correctness, and any recovery/error.
 
 For the complete first-time setup, see
 [docs/program_fpga_from_zero.md](docs/program_fpga_from_zero.md).
+For the LCD-touch integration architecture and the Option 1/Option 2
+decision, see [docs/lcd_ml_integration.md](docs/lcd_ml_integration.md).
 
 After programming the checked-in bridge SOF with Quartus Programmer, run the
 interactive viewer from the repository root:
