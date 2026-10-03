@@ -100,9 +100,10 @@ interactive viewer from the repository root:
 
 The window has one explicit flow:
 
-1. Load a local MNIST test sample, choose a handwriting photo, or select the
-   built-in four-point diagnostic frame. The left preview is the exact 14×14,
-   4-bit frame that will be transmitted.
+1. Load a random local MNIST test sample, choose a handwriting photo, or select
+   the built-in four-point diagnostic frame. The UI shows the generated MNIST
+   sample name and label. The left preview is the exact 14×14, 4-bit frame that
+   will be transmitted.
 2. Click **Send sample to FPGA**. The log reports the 99-word/198-byte request,
    transaction ID, and receive stage.
 3. The result area shows the FPGA digit or `NON-RECOGNIZABLE`. The log records

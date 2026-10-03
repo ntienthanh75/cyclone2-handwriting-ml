@@ -7,6 +7,7 @@ Quartus Programmer first.
 from __future__ import annotations
 
 import queue
+import random
 import threading
 import time
 import tkinter as tk
@@ -50,11 +51,8 @@ class MLViewer:
         controls.pack(fill="x", padx=10, pady=(0, 8))
         self.sample_button = ttk.Button(controls, text="2A. Four-point test", command=self.four_points)
         self.sample_button.pack(side="left")
-        ttk.Button(controls, text="2B. Load MNIST sample", command=self.load_sample).pack(side="left", padx=6)
+        ttk.Button(controls, text="2B. Random MNIST sample", command=self.load_sample).pack(side="left", padx=6)
         ttk.Button(controls, text="2C. Choose photo", command=self.choose_photo).pack(side="left")
-        ttk.Label(controls, text="MNIST index:").pack(side="left", padx=(18, 4))
-        self.index = tk.IntVar(value=0)
-        ttk.Spinbox(controls, from_=0, to=9999, width=7, textvariable=self.index).pack(side="left")
         self.source_label = tk.StringVar(value=self.source)
         ttk.Label(controls, textvariable=self.source_label).pack(side="left", padx=12)
 
@@ -140,9 +138,11 @@ class MLViewer:
             if self.test_images is None:
                 self.write("loading local MNIST test set...")
                 _, _, self.test_images, self.test_labels = load_mnist(self.data_dir)
-            idx = max(0, min(int(self.index.get()), len(self.test_images) - 1))
+            idx = random.SystemRandom().randrange(len(self.test_images))
             pixels = normalize_mnist(self.test_images[idx:idx + 1])[0].tolist()
-            self.set_sample(pixels, f"MNIST test sample {idx}", int(self.test_labels[idx]))
+            label = int(self.test_labels[idx])
+            sample_name = f"mnist_test_{idx:05d}_label_{label}.png"
+            self.set_sample(pixels, sample_name, label)
         except Exception as exc:
             messagebox.showerror("Load MNIST sample", str(exc))
             self.write(f"sample error: {exc}")

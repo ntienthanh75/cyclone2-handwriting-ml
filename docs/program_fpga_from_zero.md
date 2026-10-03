@@ -113,8 +113,9 @@ powershell -ExecutionPolicy Bypass -File `
      normally `IN 0x86`. This button does not program the FPGA.
    - **2A. Four-point test**: loads a built-in diagnostic frame with four
      black pixels. It only changes the preview; it does not send anything.
-   - **2B. Load MNIST sample**: loads a labeled sample from the local MNIST
-     test set. The label is shown beside the preview for comparison.
+   - **2B. Random MNIST sample**: chooses a random labeled sample from the
+     local MNIST test set. The generated sample name, for example
+     `mnist_test_04127_label_7.png`, and its label are shown beside the preview.
    - **2C. Choose photo**: opens a file picker for one handwriting image and
      applies the same photo normalization used by the benchmark.
    - **3. Send sample to FPGA**: sends the currently displayed 14×14 frame,
