@@ -106,12 +106,26 @@ powershell -ExecutionPolicy Bypass -File `
   D:\fpga\cyclone2-handwriting-ml\run_fx2_ml_ui.ps1
 ```
 
-4. Click **Connect FX2**. The log should show an OUT endpoint, normally
-   `OUT 0x02`, and an IN endpoint, normally `IN 0x86`.
-5. Choose **Four-point test** first, then click **Send sample to FPGA**.
-6. The UI should log sending 99 words, receiving six result words, and then
+4. Follow the buttons from left to right:
+
+   - **1. Connect FX2**: opens the CY7C68013A WinUSB interface. The log
+     should show an OUT endpoint, normally `OUT 0x02`, and an IN endpoint,
+     normally `IN 0x86`. This button does not program the FPGA.
+   - **2A. Four-point test**: loads a built-in diagnostic frame with four
+     black pixels. It only changes the preview; it does not send anything.
+   - **2B. Load MNIST sample**: loads a labeled sample from the local MNIST
+     test set. The label is shown beside the preview for comparison.
+   - **2C. Choose photo**: opens a file picker for one handwriting image and
+     applies the same photo normalization used by the benchmark.
+   - **3. Send sample to FPGA**: sends the currently displayed 14×14 frame,
+     waits for the FPGA response, and displays the recognized digit.
+
+5. For the first test, click **1. Connect FX2**, then **2A. Four-point test**,
+   then **3. Send sample to FPGA**.
+6. The log should show sending 99 words, receiving six result words, and then
    show a digit, confidence, margin, FPGA cycles, and round-trip time.
-7. Next choose an MNIST sample or handwriting photo and send it the same way.
+7. After the diagnostic succeeds, use **2B** or **2C** and send the new sample
+   with **3. Send sample to FPGA**.
 
 If the first response is incomplete or times out, the UI automatically closes
 and reopens the FX2 interface and retries the same transaction up to two times.
