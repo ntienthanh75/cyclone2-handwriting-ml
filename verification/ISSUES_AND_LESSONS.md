@@ -319,3 +319,35 @@ The frequency experiment and measured setup/hold slack are documented in
 
 The register/combinational-path comparison is documented in
 [`rtl/synthesis/pipeline_versions/README.md`](../rtl/synthesis/pipeline_versions/README.md).
+
+### 12. WinUSB timeout shifted later benchmark labels
+
+**Symptom.** After a WinUSB timeout, a response could be numerically valid
+and have a newer cycle counter, yet belong to the previous image. This made
+the original 200-sample result appear as low as 8.50% even though stable
+runs matched the PC reference.
+
+**Root cause.** The original six-word result had no transaction identity. The
+FX2 endpoint also uses a fixed 198-byte OUT frame and fixed 24-byte IN packet,
+so adding a new word broke synchronization.
+
+**Resolution.** Keep the original packet sizes. Put an 8-bit transaction ID
+in unused bits of the first pixel word; the FPGA extracts it without changing
+either 4-bit pixel nibble. Echo the ID in unused result-status bits. The PC
+rejects a result whose ID does not match the request currently being measured.
+
+**Validation.** The corrected bridge compiled and programmed successfully.
+The physical 20-sample test accepted 20/20, had 16 recoveries, and classified
+19/20 correctly. The final 200-sample run accepted 197/200, classified
+187/200 correctly overall, and 187/197 correctly among accepted responses.
+The three unrecovered transport errors were explicitly recorded rather than
+silently converted into wrong predictions.
+
+### 13. Reopening WinUSB during a timeout could crash the benchmark
+
+**Root cause.** The recovery code called `CancelIoEx` and immediately closed
+the event/handle while the overlapped WinUSB read could still be completing.
+
+**Resolution.** After cancellation, call blocking `GetOverlappedResult` before
+closing the event or reopening the device. This removed the observed native
+process crash during repeated recovery attempts.

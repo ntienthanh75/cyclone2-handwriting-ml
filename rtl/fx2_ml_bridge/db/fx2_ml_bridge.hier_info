@@ -42,8 +42,6 @@ led[1] <= led[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 led[2] <= led[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 led[3] <= led[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 buzz <= <VCC>
-global.bp.work.work.tx_packet_count_1_ <> tx_packet_count_1_
-global.bp.work.work.tx_packet_count_0_ <> tx_packet_count_0_
 
 
 |ml_fx2_stream_bridge|altsyncram:frame_ram

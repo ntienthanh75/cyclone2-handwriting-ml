@@ -19,13 +19,20 @@ def make_four_points() -> list[int]:
     return pixels
 
 
-def pack_frame(pixels: list[int]) -> list[int]:
+def pack_frame(pixels: list[int], sequence: int = 0) -> list[int]:
     if len(pixels) != PIXELS:
         raise ValueError(f"expected {PIXELS} pixels, got {len(pixels)}")
     if any(not 0 <= p <= 15 for p in pixels):
         raise ValueError("pixels must be 4-bit values in the range 0..15")
+    if not 0 <= sequence <= 0xFF:
+        raise ValueError("sequence must be an 8-bit value")
     words = [0xA5A5]
-    words.extend((pixels[i] & 0xF) | ((pixels[i + 1] & 0xF) << 8) for i in range(0, PIXELS, 2))
+    for i in range(0, PIXELS, 2):
+        word = (pixels[i] & 0xF) | ((pixels[i + 1] & 0xF) << 8)
+        if i == 0:
+            word |= (sequence & 0x0F) << 4
+            word |= ((sequence >> 4) & 0x0F) << 12
+        words.append(word)
     return words
 
 
@@ -44,6 +51,7 @@ def decode_result(words: list[int]) -> dict[str, int | bool]:
     return {
         "accepted": bool((words[1] >> 8) & 1),
         "digit": words[1] & 0xF,
+        "sequence": ((words[1] >> 12) & 0xF) << 4 | ((words[1] >> 4) & 0xF),
         "confidence": words[2] & 0xFF,
         "margin": words[3] & 0xFFFF,
         "cycles": (words[4] & 0xFFFF) | ((words[5] & 0xFFFF) << 16),

@@ -45,9 +45,10 @@ def main() -> None:
             error = ""
             recovered = False
             started = time.perf_counter()
+            dev.sequence = (dev.sequence + 1) & 0xFF
             for attempt in range(3):
                 try:
-                    result = dev.transact(pack_frame([int(p) for p in pixels]))
+                    result = dev.transact(pack_frame([int(p) for p in pixels], dev.sequence))
                     break
                 except (OSError, TimeoutError) as exc:
                     if attempt == 2:

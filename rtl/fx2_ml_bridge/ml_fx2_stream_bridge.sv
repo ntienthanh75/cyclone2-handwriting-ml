@@ -19,6 +19,7 @@ module ml_fx2_stream_bridge (
   reg [5:0] rx_wait;
   reg [6:0] rx_count;
   reg [15:0] rx_word;
+  reg [7:0] rx_sequence;
   reg header_seen, frame_ready;
   localparam RX_IDLE=0, RX_WAIT=1, RX_LOW=2, RX_CAPTURE=3,
              RX_STORE_LOW=4, RX_STORE_HIGH=5;
@@ -44,6 +45,8 @@ module ml_fx2_stream_bridge (
     reg [7:0] saved_confidence;
     reg [15:0] saved_margin;
     reg [31:0] saved_cycles;
+    reg [7:0] saved_sequence;
+    reg [1:0] tx_packet_count;
   localparam TX_IDLE=0, TX_SETUP=1, TX_WRITE=2, TX_NEXT=3;
   wire ml_busy, ml_result_valid, ml_result_accepted;
   wire [3:0] ml_result_digit;
@@ -76,6 +79,7 @@ module ml_fx2_stream_bridge (
     if (!rst) begin
       rx_state<=RX_IDLE; rx_wait<=0; rx_count<=0;
       header_seen<=0; frame_ready<=0; feed_index<=0;
+      rx_sequence<=0;
       SLOE<=1; SLRD<=1;
     end else begin
       SLOE<=1; SLRD<=1;
@@ -110,6 +114,8 @@ module ml_fx2_stream_bridge (
           end else rx_state<=RX_IDLE;
         end
         RX_STORE_LOW: begin
+          if (rx_count == 0)
+            rx_sequence <= {rx_word[15:12], rx_word[7:4]};
           rx_state <= RX_STORE_HIGH;
         end
         RX_STORE_HIGH: begin
@@ -132,7 +138,7 @@ module ml_fx2_stream_bridge (
   always @(posedge clk or negedge rst) begin
     if (!rst) begin
       result_pending<=0; saved_digit<=0; saved_accepted<=0; saved_confidence<=0;
-      saved_margin<=0; saved_cycles<=0;
+      saved_margin<=0; saved_cycles<=0; saved_sequence<=0;
       tx_state<=TX_IDLE; tx_index<=0;
       tx_packet_count<=0;
       tx_wait<=0;
@@ -142,7 +148,8 @@ module ml_fx2_stream_bridge (
       if (ml_result_valid) begin
         result_pending<=1; saved_digit<=ml_result_digit; saved_accepted<=ml_result_accepted;
         saved_confidence<=ml_result_confidence; saved_margin<=ml_result_margin;
-        saved_cycles<=ml_result_cycles; led<=~ml_result_digit;
+        saved_cycles<=ml_result_cycles; saved_sequence<=rx_sequence;
+        led<=~ml_result_digit;
       end
       case (tx_state)
         // FLAGB is the original EP2 input-full flag in the board design.  It
@@ -176,7 +183,11 @@ module ml_fx2_stream_bridge (
                  else begin
                    tx_index<=tx_index+1;
                    case (tx_index)
-                     0: tx_word_reg<={7'b0,saved_accepted,4'b0,saved_digit};
+                     // Keep the six-word/24-byte response. The status word
+                     // has unused bits, so carry the 8-bit transaction ID
+                     // without changing the FX2 packet size.
+                     0: tx_word_reg<={saved_sequence[7:4],3'b0,saved_accepted,
+                                      saved_sequence[3:0],saved_digit};
                      1: tx_word_reg<={8'b0,saved_confidence};
                      2: tx_word_reg<=saved_margin;
                      3: tx_word_reg<=saved_cycles[15:0];
@@ -190,4 +201,3 @@ module ml_fx2_stream_bridge (
     end
   end
 endmodule
-    reg [1:0] tx_packet_count;

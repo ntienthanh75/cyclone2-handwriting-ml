@@ -73,6 +73,7 @@ class FX2:
         self.dev = self.usb = None
         self.out_pipe = self.in_pipe = None
         self.last_result_cycles = None
+        self.sequence = 0
         self.path = ""
         self.setup = ctypes.WinDLL("setupapi.dll")
         self.k32 = ctypes.WinDLL("kernel32.dll")
@@ -251,6 +252,10 @@ class FX2:
                             break
                         if self.k32.WaitForSingleObject(event, 100) != 0:
                             self.k32.CancelIoEx(self.dev, ctypes.byref(ov))
+                            # Do not close the event/handle while WinUSB is
+                            # still completing the cancelled overlapped read.
+                            self.k32.GetOverlappedResult(self.dev, ctypes.byref(ov),
+                                                         ctypes.byref(got), True)
                             break
                         if not self.wusb.WinUsb_GetOverlappedResult(
                                 self.usb, ctypes.byref(ov), ctypes.byref(got), False):
@@ -280,6 +285,10 @@ class FX2:
                     raise OSError(f"WinUsb_ReadPipe failed (Windows error {code})")
                 if self.k32.WaitForSingleObject(event, 3000) != 0:
                     self.k32.CancelIoEx(self.dev, ctypes.byref(ov))
+                    # Wait for cancellation completion before the event is
+                    # closed and before recovery reopens the interface.
+                    self.k32.GetOverlappedResult(self.dev, ctypes.byref(ov),
+                                                 ctypes.byref(got), True)
                     raise TimeoutError("WinUsb_ReadPipe timed out after 3 seconds")
                 if not self.wusb.WinUsb_GetOverlappedResult(self.usb, ctypes.byref(ov),
                                                            ctypes.byref(got), False):
@@ -363,10 +372,11 @@ class FX2:
                 stale_before_run = self.last_result_cycles is None and result["cycles"] > 1_000_000
                 stale_duplicate = (self.last_result_cycles is not None and
                                    result["cycles"] <= self.last_result_cycles)
-                if not stale_before_run and not stale_duplicate:
+                if (not stale_before_run and not stale_duplicate and
+                        result.get("sequence") == self.sequence):
                     self.last_result_cycles = result["cycles"]
                     return result
-            raise OSError("FPGA result did not advance after four response packets")
+            raise OSError("FPGA result did not match this transaction after four response packets")
             return best[0]
         else:
             words = list(struct.unpack("<%dH" % read_words, self._read_exact(2 * read_words)))
@@ -435,7 +445,8 @@ class App:
             self.events.put("sending")
             if not self.dev.usb: self.dev.open()
             self.events.put("waiting for FPGA result")
-            result = self.dev.transact(pack_frame(self.pixels)); self.events.put(result)
+            self.dev.sequence = (self.dev.sequence + 1) & 0xFF
+            result = self.dev.transact(pack_frame(self.pixels, self.dev.sequence)); self.events.put(result)
         except Exception as e:
             # A failed synchronous WinUSB read can leave the pipe unusable.
             # Release it so the next click can reconnect automatically.

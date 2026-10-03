@@ -36,32 +36,39 @@ connecting or programming the LCD.
 
 ## 200-sample hardware benchmark
 
-On 2026-10-03, the first 200 labeled images from the downloaded MNIST test
-resource (`t10k-images-idx3-ubyte.gz` and `t10k-labels-idx1-ubyte.gz`) were
-normalized with the same `normalize_mnist()` function used by training and
-sent through the physical CY7C68013A FX2 WinUSB bridge to the FPGA. The
-complete per-sample record is saved in
-`artifacts/hardware_benchmark_200.csv` (the dataset itself remains ignored).
+The first 200 labeled images from the downloaded MNIST test resource
+(`t10k-images-idx3-ubyte.gz` and `t10k-labels-idx1-ubyte.gz`) are normalized
+with the same `normalize_mnist()` function used by training and sent through
+the physical CY7C68013A FX2 WinUSB bridge to the FPGA. Per-sample records are
+saved under `artifacts/` (the dataset itself remains ignored).
 
 | Metric | Result |
 |---|---:|
 | Samples attempted | 200 |
 | FPGA responses accepted | 200 (100.00%) |
-| Correct labels | 17 (8.50%) |
-| Accuracy among accepted responses | 8.50% |
-| Transport recoveries | 19 |
-| Unrecovered transport errors | 0 |
+| Initial pre-fix result | 17/200 (8.50%) |
+| Corrected 20-sample validation | 19/20 (95.00%) |
+| Final corrected 200-sample result | 187/200 (93.50%) |
+| Accuracy among accepted frames | 187/197 (94.92%) |
+| Accepted responses | 197/200 (98.50%) |
+| Recoveries / unrecovered errors | 44 / 3 |
 
-This initial result was a transport/liveness success but an ML-accuracy
-failure. It exposed two RTL bugs that are now corrected: the FPGA used raw
-uint4 pixels without the training scale, and the ROM addresses treated the
-row-major MIF files as transposed. A software reproduction of the corrected
-shift-only fixed-point formula reaches 94.5% on these same 200 images, and
-the corrected FPGA matches the software reference during stable USB runs.
-The remaining blocker is FX2 recovery: after a WinUSB timeout, the bridge can
-still replay an old frame or accept a repeated frame. The benchmark records
-this separately and must not be called a final accuracy result until the
-frame-sequence protocol is made deterministic.
+The initial 8.50% result was an ML-accuracy failure caused by two RTL bugs:
+raw uint4 pixels were used without the training scale, and the ROM addresses
+treated the row-major MIF files as transposed. The corrected shift-only
+fixed-point formula reaches about 94.5% in software on these images.
+
+The second issue was FX2 recovery. A WinUSB timeout could leave an old result
+queued, shifting all later labels. The bridge now carries an 8-bit transaction
+ID in unused bits of the first input word and echoes it in unused status-word
+bits. The packet remains the proven 99-word OUT / 24-byte IN format. The PC
+accepts a result only when its ID matches the current request, so a recovery
+cannot silently corrupt benchmark alignment. A 20-sample physical run after
+this fix produced 19/20 correct with 16 recoveries and zero unrecovered
+transport errors; the one error was a classifier mistake, not a frame shift.
+The final 200-sample run produced 187/200 correct overall and 187/197 correct
+among accepted responses. The three unrecovered transport errors are reported
+as missing samples, not silently counted as wrong digit predictions.
 
 Reproduce it with:
 
